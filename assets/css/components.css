@@ -1,0 +1,521 @@
+
+
+
+/*
+ * components.css
+ * Logitrack IMS — Reusable UI Components
+ *
+ * This file contains all component-level CSS.
+ * It must be loaded AFTER main.css so design tokens are available.
+ *
+ * Components:
+ *   - Auth layout (login / forgot-password)
+ *   - Form controls (inputs, labels, checkboxes)
+ *   - Buttons (primary, secondary, ghost, icon)
+ *   - Form validation states
+ *   - Alert / notification banners
+ *   - Material Symbols icon helper
+ */
+
+/* =============================================================================
+   1. AUTH PAGE LAYOUT
+   ============================================================================= */
+
+/**
+ * .auth-page
+ * Full-viewport centred layout for login / forgot-password / register.
+ * Background: surface-container-low (light lavender-grey from the Stitch design).
+ */
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    background-color: var(--color-surface-container-low);
+}
+
+/**
+ * .auth-card
+ * The white card that houses the auth form.
+ * Width matches the Stitch reference (max 420px).
+ */
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-surface-variant);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-xl);
+}
+
+/* ── Auth card header ───────────────────────────────────────────────────────── */
+.auth-card__header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.auth-card__brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.auth-card__brand-icon {
+    font-size: 32px;
+    color: var(--color-primary);
+    /* Material Symbols: prevent flex shrink */
+    flex-shrink: 0;
+}
+
+.auth-card__app-name {
+    font-size: var(--text-headline-lg-size);
+    line-height: var(--text-headline-lg-height);
+    font-weight: var(--text-headline-lg-weight);
+    letter-spacing: var(--text-headline-lg-spacing);
+    color: var(--color-primary);
+}
+
+.auth-card__title {
+    font-size: var(--text-title-lg-size);
+    line-height: var(--text-title-lg-height);
+    font-weight: var(--text-title-lg-weight);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-xs);
+}
+
+.auth-card__subtitle {
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-height);
+    font-weight: var(--text-body-md-weight);
+    color: var(--color-on-surface-variant);
+}
+
+/* ── Auth card footer ───────────────────────────────────────────────────────── */
+.auth-card__footer {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+}
+
+.auth-card__footer-icon {
+    font-size: 16px;
+    color: var(--color-secondary);
+}
+
+.auth-card__footer-text {
+    font-size: var(--text-label-md-size);
+    line-height: var(--text-label-md-height);
+    font-weight: var(--text-label-md-weight);
+    letter-spacing: var(--text-label-md-spacing);
+    text-transform: uppercase;
+    color: var(--color-outline);
+}
+
+/* ── Auth card back link ─────────────────────────────────────────────────────── */
+.auth-card__back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    color: var(--color-secondary);
+    margin-bottom: var(--space-lg);
+    transition: color 0.15s ease;
+}
+
+.auth-card__back-link:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.auth-card__back-link .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* =============================================================================
+   2. FORM LAYOUT
+   ============================================================================= */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ── Field wrapper ──────────────────────────────────────────────────────────── */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+/* ── Label ──────────────────────────────────────────────────────────────────── */
+.form-label {
+    font-size: var(--text-label-md-size);
+    line-height: var(--text-label-md-height);
+    font-weight: var(--text-label-md-weight);
+    letter-spacing: var(--text-label-md-spacing);
+    text-transform: uppercase;
+    color: var(--color-on-surface);
+    cursor: pointer;
+}
+
+/* ── Input wrapper (for icon + input + toggle) ──────────────────────────────── */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper .input-icon {
+    position: absolute;
+    left: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--color-outline);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* =============================================================================
+   3. INPUT / SELECT / TEXTAREA
+   ============================================================================= */
+
+.form-control {
+    width: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-base);
+    padding: 10px var(--space-sm);
+    font-family: var(--font-family-base);
+    font-size: var(--text-body-md-size);
+    line-height: var(--text-body-md-height);
+    color: var(--color-on-surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* When input is preceded by an icon */
+.input-wrapper .form-control {
+    padding-left: 40px;  /* icon 20px + left-space 8px + 12px clearance */
+}
+
+/* When input has a trailing button (e.g. password toggle) */
+.input-wrapper .form-control.has-toggle {
+    padding-right: 40px;
+}
+
+/* Focus state */
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 1px var(--color-secondary);
+}
+
+/* Placeholder */
+.form-control::placeholder {
+    color: var(--color-outline);
+    opacity: 1;
+}
+
+/* Disabled */
+.form-control:disabled {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    cursor: not-allowed;
+    border-color: var(--color-outline-variant);
+}
+
+/* Error state */
+.form-control.is-invalid {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 1px var(--color-error);
+}
+
+.form-control.is-invalid:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 1px var(--color-error);
+}
+
+/* =============================================================================
+   4. PASSWORD VISIBILITY TOGGLE BUTTON
+   ============================================================================= */
+
+.btn-toggle-password {
+    position: absolute;
+    right: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    color: var(--color-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+}
+
+.btn-toggle-password:hover {
+    color: var(--color-on-surface);
+}
+
+.btn-toggle-password:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+.btn-toggle-password .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* =============================================================================
+   5. INLINE FORM ROW (Remember me + Forgot password)
+   ============================================================================= */
+
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+}
+
+/* ── Checkbox label ─────────────────────────────────────────────────────────── */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+}
+
+.form-check__input {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    accent-color: var(--color-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s ease;
+}
+
+.form-check__input:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+.form-check__label {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-height);
+    color: var(--color-on-surface-variant);
+    transition: color 0.15s ease;
+    user-select: none;
+}
+
+.form-check:hover .form-check__label {
+    color: var(--color-on-surface);
+}
+
+/* ── Inline link (e.g. "Forgot password?") ───────────────────────────────────── */
+.form-link {
+    font-size: var(--text-label-md-size);
+    line-height: var(--text-label-md-height);
+    font-weight: var(--text-label-md-weight);
+    letter-spacing: var(--text-label-md-spacing);
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    transition: color 0.15s ease;
+    white-space: nowrap;
+}
+
+.form-link:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* =============================================================================
+   6. VALIDATION — HELPER TEXT & ERROR MESSAGES
+   ============================================================================= */
+
+.form-helper {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-height);
+    color: var(--color-on-surface-variant);
+    margin-top: 2px;
+}
+
+.form-error-text {
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-height);
+    color: var(--color-error);
+    margin-top: 2px;
+    display: none; /* shown by JS when validation fails */
+}
+
+.form-error-text.is-visible {
+    display: block;
+}
+
+/* =============================================================================
+   7. ALERT BANNERS
+   ============================================================================= */
+
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-base);
+    font-size: var(--text-body-sm-size);
+    line-height: var(--text-body-sm-height);
+    margin-bottom: var(--space-md);
+}
+
+.alert .material-symbols-outlined {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.alert--error {
+    background-color: var(--color-error-container);
+    color: var(--color-on-error-container);
+    border: 1px solid rgba(186, 26, 26, 0.2);
+}
+
+.alert--success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid rgba(26, 122, 74, 0.2);
+}
+
+.alert--info {
+    background-color: var(--color-secondary-fixed);
+    color: var(--color-on-secondary-fixed);
+    border: 1px solid rgba(0, 88, 190, 0.2);
+}
+
+/* =============================================================================
+   8. BUTTONS
+   ============================================================================= */
+
+/* Base button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: 10px var(--space-md);
+    border-radius: var(--radius-base);
+    font-family: var(--font-family-base);
+    font-size: var(--text-title-md-size);
+    line-height: var(--text-title-md-height);
+    font-weight: var(--text-title-md-weight);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease,
+                border-color 0.15s ease,
+                box-shadow 0.15s ease,
+                color 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── Primary button (Royal Blue fill) ──────────────────────────────────────── */
+.btn-primary {
+    background-color: var(--color-secondary);     /* Royal Blue */
+    color: var(--color-on-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--color-primary);       /* Deep Navy on hover */
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    color: var(--color-on-primary);
+    text-decoration: none;
+}
+
+/* ── Secondary / outlined button ─────────────────────────────────────────── */
+.btn-secondary {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    border-color: var(--color-outline-variant);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-surface-container);
+    border-color: var(--color-outline);
+    color: var(--color-on-surface);
+    text-decoration: none;
+}
+
+/* ── Full-width button modifier ──────────────────────────────────────────── */
+.btn-block {
+    width: 100%;
+    margin-top: var(--space-sm);
+}
+
+/* ── Button icon ─────────────────────────────────────────────────────────── */
+.btn .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* ── Loading state ────────────────────────────────────────────────────────── */
+.btn.is-loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn.is-loading .btn-text::after {
+    content: '…';
+}
+
+/* =============================================================================
+   9. MATERIAL SYMBOLS — BASE SETTINGS
+   ============================================================================= */
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+/* =============================================================================
+   10. DIVIDER
+   ============================================================================= */
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--color-surface-variant);
+    margin: var(--space-md) 0;
+}

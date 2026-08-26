@@ -1,0 +1,305 @@
+/**
+ * assets/css/layout.css
+ * Logitrack IMS — Authenticated App Shell Layout
+ *
+ * Defines the two-column layout: fixed sidebar + scrollable main content.
+ * Works in concert with main.css design tokens.
+ */
+
+/* ── App Shell ─────────────────────────────────────────────────────────── */
+.app-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+/* ── Navbar ────────────────────────────────────────────────────────────── */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.75rem;         /* 60px */
+    padding: 0 var(--space-4);
+    background-color: var(--color-primary);
+    color: #fff;
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+}
+
+.navbar__left,
+.navbar__right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* Brand */
+.navbar__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: inherit;
+}
+.navbar__brand-icon {
+    font-size: 1.5rem;
+}
+.navbar__brand-name {
+    font-size: var(--text-base);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}
+
+/* Hamburger */
+.navbar__menu-btn {
+    display: none;   /* shown on mobile via responsive.css */
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: var(--space-1);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s;
+}
+.navbar__menu-btn:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* User area */
+.navbar__user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+.navbar__user-icon {
+    font-size: 1.75rem;
+    opacity: 0.9;
+}
+.navbar__user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+.navbar__user-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+.navbar__user-role {
+    font-size: 0.7rem;
+}
+
+/* Role badge inside navbar */
+.badge--role {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-full);
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+/* Logout */
+.navbar__logout-form {
+    margin: 0;
+}
+.navbar__logout-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    background: none;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: var(--radius-sm);
+    color: #fff;
+    cursor: pointer;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    transition: background-color 0.15s, border-color 0.15s;
+}
+.navbar__logout-btn:hover {
+    background-color: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.6);
+}
+.navbar__logout-label {
+    display: none;  /* label hidden on small screens */
+}
+
+/* ── App Body (sidebar + content) ────────────────────────────────────────── */
+.app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.sidebar {
+    width: 15rem;           /* 240px */
+    min-height: calc(100vh - 3.75rem);
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.sidebar__nav {
+    padding: var(--space-3) 0;
+}
+
+.sidebar__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar__item {
+    margin: 0.125rem var(--space-2);
+}
+
+.sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: background-color 0.15s, color 0.15s;
+}
+.sidebar__link:hover {
+    background-color: var(--color-bg-hover, #f1f5f9);
+    color: var(--color-primary);
+}
+.sidebar__link--active {
+    background-color: var(--color-primary-light, #e8effc);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+.sidebar__icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+/* ── Main Content ─────────────────────────────────────────────────────────── */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-6);
+    background-color: var(--color-bg);
+}
+
+.page-header {
+    margin-bottom: var(--space-6);
+}
+.page-header__title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 var(--space-1);
+}
+.page-header__subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+/* ── App Footer ───────────────────────────────────────────────────────────── */
+.app-footer {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-6);
+    text-align: center;
+}
+.app-footer__text {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted, #94a3b8);
+    margin: 0;
+}
+
+/* ── Stat Cards ───────────────────────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.stat-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s;
+}
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card__icon-wrap {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+.stat-card__icon-wrap--blue   { background-color: #dbeafe; color: #2563eb; }
+.stat-card__icon-wrap--green  { background-color: #dcfce7; color: #16a34a; }
+.stat-card__icon-wrap--yellow { background-color: #fef9c3; color: #ca8a04; }
+.stat-card__icon-wrap--red    { background-color: #fee2e2; color: #dc2626; }
+.stat-card__icon-wrap--purple { background-color: #ede9fe; color: #7c3aed; }
+
+.stat-card__label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+}
+.stat-card__value {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+/* ── Content Card ─────────────────────────────────────────────────────────── */
+.content-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: var(--space-6);
+}
+.content-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+}
+.content-card__title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+.content-card__body {
+    padding: var(--space-5);
+}

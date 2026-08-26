@@ -1,0 +1,100 @@
+/*
+ * responsive.css
+ * Logitrack IMS — Responsive Breakpoints
+ *
+ * Breakpoints (from DESIGN.md):
+ *   Mobile first approach.
+ *   Key breakpoint: 768px (sidebar collapses, cards stack).
+ *
+ * This file must be loaded AFTER components.css.
+ */
+
+/* =============================================================================
+   1. AUTH CARD — SMALL SCREENS
+   ============================================================================= */
+
+/**
+ * On screens narrower than 480px the auth card fills the full width and
+ * uses slightly reduced padding so content does not feel cramped.
+ */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: var(--space-lg);
+        border-radius: var(--radius-base);
+        /* Remove the card shadow on very small screens — the full-width
+           container becomes the primary visual boundary. */
+        box-shadow: none;
+        border: none;
+    }
+
+    .auth-card__header {
+        margin-bottom: var(--space-lg);
+    }
+
+    .auth-card__brand-icon {
+        font-size: 28px;
+    }
+
+    .auth-card__app-name {
+        font-size: 20px;
+    }
+
+    .auth-card__title {
+        font-size: var(--text-title-md-size);
+        line-height: var(--text-title-md-height);
+    }
+}
+
+/**
+ * On very small screens (320px) collapse the form row that holds
+ * "Remember me" and "Forgot password?" into a column.
+ */
+@media (max-width: 360px) {
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+}
+
+/* =============================================================================
+   2. AUTH PAGE BACKGROUND
+   ============================================================================= */
+
+/**
+ * On very large screens, keep the background visually interesting by
+ * slightly darkening the container around the auth card.
+ */
+@media (min-width: 1024px) {
+    .auth-page {
+        background-color: var(--color-surface-container);
+    }
+}
+
+/* =============================================================================
+   3. TABLET & MOBILE — GENERAL
+   ============================================================================= */
+
+/**
+ * At 768px the DESIGN.md specifies the sidebar collapses.
+ * This rule is a placeholder for the authenticated-layout pages
+ * (implemented in later phases). Nothing in the auth pages uses the sidebar.
+ */
+@media (max-width: 768px) {
+    /* Sidebar behaviour will be handled in the authenticated layout phase */
+}
+
+/* =============================================================================
+   4. FOCUS VISIBILITY ON TOUCH DEVICES
+   ============================================================================= */
+
+/**
+ * On touch-primary devices the :focus-visible outline can be noisy.
+ * We keep it since keyboard navigation is important for accessibility,
+ * but we use a slightly softer ring.
+ */
+@media (hover: none) and (pointer: coarse) {
+    :focus-visible {
+        outline-offset: 3px;
+    }
+}
