@@ -25,8 +25,8 @@ if (isset($_GET['sent']) && $_GET['sent'] === '1') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password — Logitrack IMS</title>
-    <meta name="description" content="Reset your Logitrack IMS account password.">
+    <title>Forgot Password — Logicore IMS</title>
+    <meta name="description" content="Reset your Logicore IMS account password.">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Google Fonts: Inter -->
@@ -57,7 +57,7 @@ if (isset($_GET['sent']) && $_GET['sent'] === '1') {
         <header class="auth-card__header">
             <div class="auth-card__brand">
                 <span class="material-symbols-outlined auth-card__brand-icon" aria-hidden="true">inventory_2</span>
-                <h1 class="auth-card__app-name">Logitrack IMS</h1>
+                <h1 class="auth-card__app-name">Logicore IMS</h1>
             </div>
             <h2 class="auth-card__title">Reset Your Password</h2>
             <p class="auth-card__subtitle">

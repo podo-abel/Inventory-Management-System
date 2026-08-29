@@ -7,7 +7,7 @@ require_once dirname(__DIR__, 2) . '/includes/header.php';
 if (get_current_role() !== 'admin') { header('Location: ' . app_base_url() . '/index.php'); exit; }
 $pdo = get_db_connection();
 
-$search   = sanitize_string($_GET['search'] ?? '');
+$search   = sanitize_string($_GET['q'] ?? '');
 $role_f   = sanitize_string($_GET['role'] ?? '');
 $page_num = max(1, (int)($_GET['page'] ?? 1));
 $per_page = ITEMS_PER_PAGE;

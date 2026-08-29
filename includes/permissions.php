@@ -147,6 +147,7 @@ function get_nav_items(string $role): array
         case 'finance':
             return [
                 ['label' => 'Dashboard',       'icon' => 'dashboard',       'href' => $base . '/finance/dashboard.php'],
+                ['label' => 'Inventory',       'icon' => 'inventory_2',     'href' => $base . '/finance/inventory.php'],
                 ['label' => 'Suppliers',       'icon' => 'local_shipping',  'href' => $base . '/finance/suppliers.php'],
                 ['label' => 'Purchases',       'icon' => 'shopping_cart',   'href' => $base . '/finance/purchases.php'],
                 ['label' => 'Payments',        'icon' => 'payments',        'href' => $base . '/finance/payments.php'],

@@ -1,28 +1,63 @@
 <?php
-$page_title = 'Add Employee';
+$page_title = 'Add Staff Member';
 require_once dirname(__DIR__, 2) . '/includes/header.php';
 if (get_current_role() !== 'admin') { header('Location: ' . app_base_url() . '/index.php'); exit; }
+
 $pdo = get_db_connection();
-// Users without employee records
-$users_list = $pdo->query("SELECT u.id,u.full_name,u.username FROM users u LEFT JOIN employees e ON e.user_id=u.id WHERE e.id IS NULL AND u.is_active=1 ORDER BY u.full_name")->fetchAll();
-$errors = []; $form = ['user_id'=>'','department'=>'','position'=>'','hire_date'=>'','phone'=>'','address'=>'','status'=>'active'];
+$errors = [];
+$form = [
+    'full_name' => '', 'username' => '', 'email' => '', 'password' => '', 'role' => 'employee',
+    'department' => '', 'phone' => ''
+];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { $errors[] = 'Invalid CSRF.'; }
-    else {
-        $form['user_id'] = (int)($_POST['user_id'] ?? 0);
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $errors[] = 'Invalid CSRF token.';
+    } else {
+        $form['full_name']  = sanitize_string($_POST['full_name'] ?? '');
+        $form['username']   = sanitize_string($_POST['username'] ?? '');
+        $form['email']      = sanitize_string($_POST['email'] ?? '');
+        $form['password']   = $_POST['password'] ?? '';
+        $form['role']       = sanitize_string($_POST['role'] ?? 'employee');
         $form['department'] = sanitize_string($_POST['department'] ?? '');
-        $form['position']   = sanitize_string($_POST['position'] ?? '');
-        $form['hire_date']  = sanitize_string($_POST['hire_date'] ?? '');
         $form['phone']      = sanitize_string($_POST['phone'] ?? '');
-        $form['address']    = sanitize_string($_POST['address'] ?? '');
-        $form['status']     = sanitize_string($_POST['status'] ?? 'active');
-        if ($form['user_id'] <= 0) $errors[] = 'User is required.';
+
+        if (empty($form['full_name'])) $errors[] = 'Full Name is required.';
+        if (empty($form['username']))  $errors[] = 'Username is required.';
+        if (empty($form['email']))     $errors[] = 'Email is required.';
+        if (empty($form['password']))  $errors[] = 'Password is required.';
+
         if (empty($errors)) {
-            $pdo->prepare('INSERT INTO employees (user_id,department,position,hire_date,phone,address,status) VALUES (?,?,?,?,?,?,?)')->execute([$form['user_id'],$form['department'],$form['position'],$form['hire_date']?:null,$form['phone'],$form['address'],$form['status']]);
-            $nid = (int)$pdo->lastInsertId();
-            log_activity($_SESSION['user_id'],'create_employee','Created employee record','employee',$nid);
-            flash_message('success','Employee record created.');
-            redirect(app_base_url().'/admin/employees/index.php');
+            // Check username & email uniqueness
+            $chk = $pdo->prepare('SELECT id FROM users WHERE username = ? OR email = ?');
+            $chk->execute([$form['username'], $form['email']]);
+            if ($chk->fetch()) {
+                $errors[] = 'Username or Email is already taken.';
+            } else {
+                try {
+                    $pdo->beginTransaction();
+                    $hash = password_hash($form['password'], PASSWORD_DEFAULT);
+                    
+                    // 1. Create User
+                    $u_stmt = $pdo->prepare('INSERT INTO users (full_name, username, email, password_hash, role, is_active) VALUES (?, ?, ?, ?, ?, 1)');
+                    $u_stmt->execute([$form['full_name'], $form['username'], $form['email'], $hash, $form['role']]);
+                    $new_user_id = $pdo->lastInsertId();
+
+                    // 2. Create Employee Profile
+                    $e_stmt = $pdo->prepare('INSERT INTO employees (user_id, department, phone) VALUES (?, ?, ?)');
+                    $e_stmt->execute([$new_user_id, $form['department'], $form['phone']]);
+                    
+                    $pdo->commit();
+                    
+                    log_activity($_SESSION['user_id'], 'create_user', "Created new staff member: {$form['username']}", 'user', $new_user_id);
+                    flash_message('success', "Staff account for {$form['full_name']} created successfully.");
+                    redirect(app_base_url() . '/admin/employees/index.php');
+                } catch (Exception $e) {
+                    $pdo->rollBack();
+                    error_log('Error creating staff: ' . $e->getMessage());
+                    $errors[] = 'A database error occurred while creating the account.';
+                }
+            }
         }
     }
 }
@@ -32,36 +67,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
 <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
-    <div><h1 class="page-header__title">Add Employee Record</h1></div>
-    <a href="index.php" class="btn btn--secondary">Back</a>
+    <div>
+        <h1 class="page-header__title">Add New Staff Member</h1>
+        <p class="page-header__subtitle">Create an account and assign a role & department.</p>
+    </div>
+    <a href="<?= e(app_base_url()) ?>/admin/employees/index.php" class="btn btn--secondary">Back to Directory</a>
 </div>
 <?php require_once dirname(__DIR__, 2) . '/includes/alerts.php'; ?>
-<?php if(!empty($errors)): ?><div class="alert alert--error"><span class="material-symbols-outlined">error</span><ul style="margin:0;padding-left:1.25rem;"><?php foreach($errors as $e2): ?><li><?= e($e2) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
-<div class="content-card" style="max-width:560px;">
+<?php if(!empty($errors)): ?>
+<div class="alert alert--error">
+    <span class="material-symbols-outlined">error</span>
+    <ul style="margin:0;padding-left:1.25rem;">
+        <?php foreach($errors as $e): ?><li><?= e($e) ?></li><?php endforeach; ?>
+    </ul>
+</div>
+<?php endif; ?>
+
+<div class="content-card" style="max-width:800px;">
     <div class="content-card__body">
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
-            <div class="form-group"><label class="form-label">User *</label>
-                <select name="user_id" class="form-control" required>
-                    <option value="">— Select User —</option>
-                    <?php foreach($users_list as $u2): ?><option value="<?= e($u2['id']) ?>" <?= (int)$form['user_id']===$u2['id']?'selected':'' ?>><?= e($u2['full_name'].' ('.$u2['username'].')') ?></option><?php endforeach; ?>
-                </select>
+            
+            <h3 style="margin-bottom:15px; color:var(--color-primary); border-bottom:1px solid var(--color-outline-variant); padding-bottom:5px;">Account Details</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" name="full_name" class="form-input" value="<?= e($form['full_name']) ?>" required>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" name="email" class="form-input" value="<?= e($form['email']) ?>" required>
+                </div>
             </div>
-            <div class="form-group"><label class="form-label">Department</label><input type="text" name="department" class="form-control" value="<?= e($form['department']) ?>"></div>
-            <div class="form-group"><label class="form-label">Position</label><input type="text" name="position" class="form-control" value="<?= e($form['position']) ?>"></div>
-            <div class="form-group"><label class="form-label">Hire Date</label><input type="date" name="hire_date" class="form-control" value="<?= e($form['hire_date']) ?>"></div>
-            <div class="form-group"><label class="form-label">Phone</label><input type="text" name="phone" class="form-control" value="<?= e($form['phone']) ?>"></div>
-            <div class="form-group"><label class="form-label">Address</label><textarea name="address" class="form-control" rows="2"><?= e($form['address']) ?></textarea></div>
-            <div class="form-group"><label class="form-label">Status</label>
-                <select name="status" class="form-control">
-                    <option value="active" <?= $form['status']==='active'?'selected':'' ?>>Active</option>
-                    <option value="inactive" <?= $form['status']==='inactive'?'selected':'' ?>>Inactive</option>
-                </select>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:30px;">
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Username *</label>
+                    <input type="text" name="username" class="form-input" value="<?= e($form['username']) ?>" required>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Password *</label>
+                    <input type="text" name="password" class="form-input" placeholder="Enter or generate password" required>
+                </div>
             </div>
-            <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);">
-                <button type="submit" class="btn btn--primary">Create</button>
-                <a href="index.php" class="btn btn--secondary">Cancel</a>
+
+            <h3 style="margin-bottom:15px; color:var(--color-primary); border-bottom:1px solid var(--color-outline-variant); padding-bottom:5px;">Role & Profile</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">System Role *</label>
+                    <select name="role" class="form-input" required>
+                        <option value="employee" <?= $form['role'] === 'employee' ? 'selected' : '' ?>>Standard Employee</option>
+                        <option value="manager" <?= $form['role'] === 'manager' ? 'selected' : '' ?>>Manager / Approver</option>
+                        <option value="store" <?= $form['role'] === 'store' ? 'selected' : '' ?>>Store Keeper</option>
+                        <option value="finance" <?= $form['role'] === 'finance' ? 'selected' : '' ?>>Finance Officer</option>
+                        <option value="admin" <?= $form['role'] === 'admin' ? 'selected' : '' ?>>Administrator</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Department</label>
+                    <input type="text" name="department" class="form-input" value="<?= e($form['department']) ?>" placeholder="e.g. IT, HR, Sales">
+                </div>
             </div>
+            
+            <div class="form-group" style="margin-bottom:30px;">
+                <label class="form-label">Phone Number</label>
+                <input type="text" name="phone" class="form-input" value="<?= e($form['phone']) ?>" style="max-width:300px;">
+            </div>
+
+            <button type="submit" class="btn btn--primary">
+                <span class="material-symbols-outlined">person_add</span> Create Staff Account
+            </button>
         </form>
     </div>
 </div>

@@ -77,11 +77,49 @@
 
 /**
  * At 768px the DESIGN.md specifies the sidebar collapses.
- * This rule is a placeholder for the authenticated-layout pages
- * (implemented in later phases). Nothing in the auth pages uses the sidebar.
+ * Navbar menu button becomes visible.
  */
 @media (max-width: 768px) {
-    /* Sidebar behaviour will be handled in the authenticated layout phase */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .sidebar.sidebar--open {
+        transform: translateX(0);
+        box-shadow: 0 0 24px rgba(0,0,0,0.5);
+    }
+    
+    .navbar {
+        margin-left: 0;
+        padding: 0 var(--space-4);
+    }
+    
+    .navbar__menu-btn {
+        display: block; /* Show hamburger */
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: var(--space-4);
+    }
+    
+    .app-footer {
+        margin-left: 0;
+        padding: var(--space-4);
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    
+    /* Hide desktop-only navbar items */
+    .navbar__search,
+    .navbar__divider {
+        display: none;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* =============================================================================

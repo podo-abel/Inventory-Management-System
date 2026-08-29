@@ -15,9 +15,13 @@
 
 <footer class="app-footer" role="contentinfo">
     <p class="app-footer__text">
-        <?= APP_NAME ?> &bull; v<?= APP_VERSION ?>
-        &copy; <?= date('Y') ?>. All rights reserved.
+        &copy; <?= date('Y') ?> Logicore Operations. All rights reserved. (v<?= APP_VERSION ?>)
     </p>
+    <div class="app-footer__links">
+        <a href="#" class="app-footer__link">Privacy Policy</a>
+        <a href="#" class="app-footer__link">Help Center</a>
+        <a href="#" class="app-footer__link">System Status</a>
+    </div>
 </footer>
 
 <!-- Core scripts -->

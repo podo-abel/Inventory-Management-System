@@ -63,18 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content-card__body">
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
-            <div class="form-group"><label class="form-label">Full Name <span style="color:red;">*</span></label><input type="text" name="full_name" class="form-control" value="<?= e($form['full_name']) ?>" required></div>
-            <div class="form-group"><label class="form-label">Username <span style="color:red;">*</span></label><input type="text" name="username" class="form-control" value="<?= e($form['username']) ?>" required autocomplete="off"></div>
-            <div class="form-group"><label class="form-label">Email <span style="color:red;">*</span></label><input type="email" name="email" class="form-control" value="<?= e($form['email']) ?>" required></div>
+            <div class="form-group"><label class="form-label">Full Name <span style="color:red;">*</span></label><input type="text" name="full_name" class="form-input" value="<?= e($form['full_name']) ?>" required></div>
+            <div class="form-group"><label class="form-label">Username <span style="color:red;">*</span></label><input type="text" name="username" class="form-input" value="<?= e($form['username']) ?>" required autocomplete="off"></div>
+            <div class="form-group"><label class="form-label">Email <span style="color:red;">*</span></label><input type="email" name="email" class="form-input" value="<?= e($form['email']) ?>" required></div>
             <div class="form-group"><label class="form-label">Role <span style="color:red;">*</span></label>
-                <select name="role" class="form-control">
+                <select name="role" class="form-input">
                     <?php foreach(['admin','manager','employee','store','finance'] as $r): ?>
                     <option value="<?= e($r) ?>" <?= $form['role']===$r?'selected':'' ?>><?= ucfirst(e($r)) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="form-group"><label class="form-label">Password <span style="color:red;">*</span></label><input type="password" name="password" class="form-control" required autocomplete="new-password" minlength="8"></div>
-            <div class="form-group"><label class="form-label">Confirm Password <span style="color:red;">*</span></label><input type="password" name="confirm_password" class="form-control" required autocomplete="new-password"></div>
+            <div class="form-group"><label class="form-label">Password <span style="color:red;">*</span></label><input type="password" name="password" class="form-input" required autocomplete="new-password" minlength="8"></div>
+            <div class="form-group"><label class="form-label">Confirm Password <span style="color:red;">*</span></label><input type="password" name="confirm_password" class="form-input" required autocomplete="new-password"></div>
             <div class="form-group"><label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;"><input type="checkbox" name="is_active" value="1" <?= $form['is_active']?'checked':'' ?>> <span>Active (can log in)</span></label></div>
             <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);">
                 <button type="submit" class="btn btn--primary">Create User</button>

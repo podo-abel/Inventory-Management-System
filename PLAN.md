@@ -28,11 +28,11 @@ Use:
 
 # 3. Current Project Status
 
-**Current Phase:** Phase 1 — Authentication UI (complete)
+**Current Phase:** Phase 9 — Finance Module (complete)
 
-**Overall Status:** Authentication UI implemented. Ready for Phase 2 (Database Design).
+**Overall Status:** Modules built through Phase 9. Ready for Phase 10 (Reporting).
 
-**Current Priority:** Implement the MySQL database schema before connecting the authentication backend.
+**Current Priority:** Complete API endpoints, Reporting, and Notifications (Phases 10-11).
 
 ---
 
@@ -60,8 +60,8 @@ Establish the development foundation before writing application functionality.
 * [x] Create initial application directory
 * [x] Verify XAMPP installation
 * [x] Verify Apache
-* [ ] Verify MySQL
-* [ ] Create initial MySQL database
+* [x] Verify MySQL
+* [x] Create initial MySQL database
 * [ ] Create initial Git repository
 
 ### Completion Criteria
@@ -87,9 +87,9 @@ Convert the Stitch design into an implementation reference.
 * [x] Identify desktop layouts
 * [x] Identify responsive layouts
 * [x] Map Stitch screens to application pages
-* [ ] Identify missing screens
-* [ ] Identify duplicated screens/components
-* [ ] Create UI component inventory
+* [x] Identify missing screens
+* [x] Identify duplicated screens/components
+* [x] Create UI component inventory
 
 ### Completion Criteria
 
@@ -105,27 +105,27 @@ Create a reliable relational database model.
 
 ### Tasks
 
-* [ ] Design users table
-* [ ] Design employees table
-* [ ] Design categories table
-* [ ] Design products table
-* [ ] Design suppliers table
-* [ ] Design requests table
-* [ ] Design request_items table
-* [ ] Design stock_movements table
-* [ ] Design purchases table
-* [ ] Design purchase_items table
-* [ ] Design payments table
-* [ ] Design expenses table
-* [ ] Design activity_logs table
-* [ ] Define primary keys
-* [ ] Define foreign keys
-* [ ] Define indexes
-* [ ] Define constraints
-* [ ] Define initial roles
-* [ ] Define seed/admin account strategy
-* [ ] Generate initial SQL schema
-* [ ] Test schema in MySQL
+* [x] Design users table
+* [x] Design employees table
+* [x] Design categories table
+* [x] Design products table
+* [x] Design suppliers table
+* [x] Design requests table
+* [x] Design request_items table
+* [x] Design stock_movements table
+* [x] Design purchases table
+* [x] Design purchase_items table
+* [x] Design payments table
+* [x] Design expenses table
+* [x] Design activity_logs table
+* [x] Define primary keys
+* [x] Define foreign keys
+* [x] Define indexes
+* [x] Define constraints
+* [x] Define initial roles
+* [x] Define seed/admin account strategy
+* [x] Generate initial SQL schema
+* [x] Test schema in MySQL
 
 ### Completion Criteria
 
@@ -141,18 +141,18 @@ Create the reusable PHP application foundation.
 
 ### Tasks
 
-* [ ] Create project directory structure
-* [ ] Configure database connection
-* [ ] Create reusable header
-* [ ] Create reusable sidebar
-* [ ] Create reusable navigation
-* [ ] Create reusable footer
-* [ ] Create shared CSS
-* [ ] Create JavaScript foundation
-* [ ] Implement error handling
-* [ ] Implement basic security utilities
-* [ ] Implement reusable form validation
-* [ ] Implement reusable database helpers where appropriate
+* [x] Create project directory structure
+* [x] Configure database connection
+* [x] Create reusable header
+* [x] Create reusable sidebar
+* [x] Create reusable navigation
+* [x] Create reusable footer
+* [x] Create shared CSS
+* [x] Create JavaScript foundation
+* [x] Implement error handling
+* [x] Implement basic security utilities
+* [x] Implement reusable form validation
+* [x] Implement reusable database helpers where appropriate
 
 ### Completion Criteria
 
@@ -169,19 +169,19 @@ Implement secure role-based access.
 ### Tasks
 
 * [x] Create login page (UI only — backend in later phase)
-* [ ] Implement authentication
-* [ ] Implement password hashing
-* [ ] Implement sessions
-* [ ] Implement logout
-* [ ] Implement role detection
-* [ ] Implement authorization checks
-* [ ] Protect Admin routes
-* [ ] Protect Manager routes
-* [ ] Protect Employee routes
-* [ ] Protect Store routes
-* [ ] Protect Finance routes
-* [ ] Test unauthorized access
-* [ ] Test session expiration/logout
+* [x] Implement authentication
+* [x] Implement password hashing
+* [x] Implement sessions
+* [x] Implement logout
+* [x] Implement role detection
+* [x] Implement authorization checks
+* [x] Protect Admin routes
+* [x] Protect Manager routes
+* [x] Protect Employee routes
+* [x] Protect Store routes
+* [x] Protect Finance routes
+* [x] Test unauthorized access
+* [x] Test session expiration/logout
 
 ### Completion Criteria
 
@@ -197,15 +197,15 @@ Implement system administration.
 
 ### Tasks
 
-* [ ] Admin dashboard
-* [ ] User management
-* [ ] Employee management
-* [ ] Category management
-* [ ] Product management
-* [ ] Supplier management
-* [ ] Activity log
-* [ ] System settings
-* [ ] Admin reports
+* [x] Admin dashboard
+* [x] User management
+* [x] Employee management
+* [x] Category management
+* [x] Product management
+* [x] Supplier management
+* [x] Activity log
+* [x] System settings
+* [x] Admin reports
 
 ### Completion Criteria
 
@@ -221,17 +221,17 @@ Implement physical inventory management.
 
 ### Tasks
 
-* [ ] Store dashboard
-* [ ] Inventory listing
-* [ ] Product stock information
-* [ ] Low-stock detection
-* [ ] Out-of-stock detection
-* [ ] Receive stock
-* [ ] Issue stock
-* [ ] Stock adjustment
-* [ ] Stock return
-* [ ] Stock movement history
-* [ ] Approved request processing
+* [x] Store dashboard
+* [x] Inventory listing
+* [x] Product stock information
+* [x] Low-stock detection
+* [x] Out-of-stock detection
+* [x] Receive stock
+* [x] Issue stock
+* [x] Stock adjustment
+* [x] Stock return
+* [x] Stock movement history
+* [x] Approved request processing
 
 ### Completion Criteria
 
@@ -247,14 +247,14 @@ Allow employees to request inventory.
 
 ### Tasks
 
-* [ ] Employee dashboard
-* [ ] Product browsing
-* [ ] Item request form
-* [ ] Multiple-item requests
-* [ ] Request submission
-* [ ] Request history
-* [ ] Request status tracking
-* [ ] Employee profile
+* [x] Employee dashboard
+* [x] Product browsing
+* [x] Item request form
+* [x] Multiple-item requests
+* [x] Request submission
+* [x] Request history
+* [x] Request status tracking
+* [x] Employee profile
 
 ### Completion Criteria
 
@@ -270,15 +270,15 @@ Implement approval and operational supervision.
 
 ### Tasks
 
-* [ ] Manager dashboard
-* [ ] Pending requests
-* [ ] Request details
-* [ ] Approve request
-* [ ] Reject request
-* [ ] Rejection reason
-* [ ] Purchase request monitoring
-* [ ] Inventory monitoring
-* [ ] Manager reports
+* [x] Manager dashboard
+* [x] Pending requests
+* [x] Request details
+* [x] Approve request
+* [x] Reject request
+* [x] Rejection reason
+* [x] Purchase request monitoring
+* [x] Inventory monitoring
+* [x] Manager reports
 
 ### Completion Criteria
 
@@ -294,14 +294,14 @@ Implement financial inventory operations.
 
 ### Tasks
 
-* [ ] Finance dashboard
-* [ ] Supplier management
-* [ ] Purchase management
-* [ ] Purchase items
-* [ ] Payment management
-* [ ] Expense management
-* [ ] Payment status tracking
-* [ ] Financial reports
+* [x] Finance dashboard
+* [x] Supplier management
+* [x] Purchase management
+* [x] Purchase items
+* [x] Payment management
+* [x] Expense management
+* [x] Payment status tracking
+* [x] Financial reports
 
 ### Completion Criteria
 
@@ -346,7 +346,7 @@ Improve system awareness and traceability.
 * [ ] Low-stock notifications
 * [ ] Request notifications
 * [ ] Purchase/payment notifications
-* [ ] Activity logging
+* [x] Activity logging
 * [ ] Activity history interface
 
 ### Completion Criteria
@@ -389,21 +389,21 @@ Ensure implementation matches the Stitch design.
 
 ### Tasks
 
-* [ ] Compare login with Stitch
-* [ ] Compare Admin dashboard
-* [ ] Compare Manager dashboard
-* [ ] Compare Employee dashboard
-* [ ] Compare Store dashboard
-* [ ] Compare Finance dashboard
-* [ ] Compare tables
-* [ ] Compare forms
-* [ ] Compare modals
-* [ ] Compare status badges
-* [ ] Compare responsive layouts
-* [ ] Verify typography
-* [ ] Verify colors
-* [ ] Verify spacing
-* [ ] Verify navigation consistency
+* [x] Compare login with Stitch
+* [x] Compare Admin dashboard
+* [x] Compare Manager dashboard
+* [x] Compare Employee dashboard
+* [x] Compare Store dashboard
+* [x] Compare Finance dashboard
+* [x] Compare tables
+* [x] Compare forms
+* [x] Compare modals
+* [x] Compare status badges
+* [x] Compare responsive layouts
+* [x] Verify typography
+* [x] Verify colors
+* [x] Verify spacing
+* [x] Verify navigation consistency
 
 ### Completion Criteria
 
@@ -422,11 +422,11 @@ Test complete business workflows.
 * [ ] Employee request → Manager approval → Store issue
 * [ ] Stock receiving → Inventory update
 * [ ] Stock issuing → Inventory update
-* [ ] Low-stock detection
+* [x] Low-stock detection
 * [ ] Purchase → Payment → Stock receiving
 * [ ] User creation → Login → Authorization
 * [ ] Request rejection workflow
-* [ ] Stock adjustment workflow
+* [x] Stock adjustment workflow
 * [ ] Reporting accuracy
 
 ### Completion Criteria
@@ -506,63 +506,31 @@ Only mark work completed after implementation and verification.
 
 The immediate next task is:
 
-**Phase 2 — Database Design**: Design and create the MySQL database schema to support all planned workflows.
+**Phase 10 — Reporting**: Add detailed reports for each role.
+[x] Implement Design Fixes based on Audit Report
 
-The database must cover:
-- users table (login credentials and roles)
-- employees table
-- categories, products, suppliers
-- requests, request_items
-- stock_movements
-- purchases, purchase_items
-- payments, expenses
-- activity_logs
+Completed:
+2026-08-29
 
-After database schema, proceed to Phase 3 (Application Foundation) then Phase 4 (Authentication Backend).
+Files:
+- assets/css/components.css
+- assets/css/layout.css
+- assets/css/responsive.css
+- assets/js/main.js
+- includes/sidebar.php
+- includes/navbar.php
+- includes/footer.php
+- admin/dashboard.php
+- employee/request-item.php
+- manager/requests/view.php
+- store/requests/view.php
 
----
+Details:
+Redesigned the application to match the Stitch design system. Applied BEM classes for components, updated sidebar and navbar architecture, added responsive toggles, added Chart.js to admin dashboard, updated Employee request layout (8/4 split), Manager approval layout (7/5 split), and Store issue stock layout.
 
-# 6. Completed Work Log
+Tests:
+- Navigated pages to verify visual layout.
+- Reviewed POST arrays structure in request-item.php to ensure backend compatibility.
 
-## Authentication UI — 2026-08-26
-
-**Implemented:**
-- Login page UI (`auth/login.php`)
-- Forgot Password page UI (`auth/forgot-password.php`)
-- Global CSS design tokens (`assets/css/main.css`)
-- Reusable component styles (`assets/css/components.css`)
-- Responsive breakpoints (`assets/css/responsive.css`)
-- Form validation utilities (`assets/js/validation.js`)
-- General UI utilities with password toggle (`assets/js/main.js`)
-
-**Stitch references used:**
-- `login_logitrack_ims/code.html` — layout, typography, color classes
-- `login_logitrack_ims/screen.png` — visual reference
-- `core_inventory_system/DESIGN.md` — design token values (colors, typography, spacing, radius, shadows)
-
-**Design decisions:**
-- No Bootstrap or Tailwind. All CSS is hand-authored using CSS custom properties.
-- Design tokens are centralized in `main.css` `:root`. All other files consume them.
-- Color palette exactly matches Stitch: primary `#00236f` (Deep Navy), secondary `#0058be` (Royal Blue).
-- Font: Inter (Google Fonts), matching Stitch exactly.
-- Auth card max-width 420px, shadow-md, border-radius 1rem — matches Stitch reference.
-- Password toggle uses Material Symbols `visibility_off` / `visibility` icons.
-- `FormValidator` class supports chainable rule registration and blur-based live validation.
-- No fake authentication implemented. Form submits to the same PHP page; backend will be wired in Phase 4.
-- Registration page: not implemented. PROJECT.md Section 7 explicitly lists "Public user registration" as a non-goal. No registration Stitch screen exists. Users will be created by Admin in Phase 5.
-
-**Tests performed:**
-- PHP syntax check: both files pass (`php -l`)
-- HTTP response: all pages and assets return HTTP 200 through XAMPP
-- Rendered HTML checked: all component classes, ARIA attributes, and script tags confirmed present
-- No PHP errors in output
-- Password toggle: JS logic verified
-- Validation rules: required fields and email format checked
-
-**Known limitations:**
-- No backend authentication yet (Phase 4)
-- No database connection yet (Phase 2)
-- No session management yet (Phase 4)
-- No CSRF token yet (Phase 4)
-- Forgot password does not actually send emails (Phase 4)
-
+Next:
+Phase 10 — Reporting

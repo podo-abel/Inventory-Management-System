@@ -8,7 +8,7 @@
  */
 
 // ── Environment ────────────────────────────────────────────────────────────
-define('APP_NAME',    'Logitrack IMS');
+define('APP_NAME',    'Logicore IMS');
 define('APP_VERSION', '1.0.0');
 define('APP_ENV',     'development');
 

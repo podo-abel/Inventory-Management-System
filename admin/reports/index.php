@@ -6,7 +6,7 @@ $pdo = get_db_connection();
 $user_by_role    = $pdo->query("SELECT role, COUNT(*) cnt FROM users WHERE is_active=1 GROUP BY role")->fetchAll();
 $prods_by_cat    = $pdo->query("SELECT c.name, COUNT(p.id) cnt FROM categories c LEFT JOIN products p ON p.category_id=c.id AND p.is_active=1 GROUP BY c.id ORDER BY cnt DESC")->fetchAll();
 $req_by_status   = $pdo->query("SELECT status, COUNT(*) cnt FROM requests GROUP BY status ORDER BY cnt DESC")->fetchAll();
-$recent_requests = $pdo->query("SELECT r.*,u.full_name FROM requests r LEFT JOIN users u ON r.requested_by=u.id ORDER BY r.created_at DESC LIMIT 10")->fetchAll();
+$recent_requests = $pdo->query("SELECT r.*,u.full_name FROM requests r LEFT JOIN users u ON r.user_id=u.id ORDER BY r.created_at DESC LIMIT 10")->fetchAll();
 ?>
 <?php require_once dirname(__DIR__, 2) . '/includes/navbar.php'; ?>
 <div class="app-body">

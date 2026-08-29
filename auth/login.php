@@ -1,14 +1,6 @@
 <?php
 /**
- * auth/login.php
  * Logitrack IMS — Login Page
- *
- * Handles both display and processing of the login form.
- * Backend authentication wired in Phase 4.
- *
- * Stitch reference:
- *   login_logitrack_ims/code.html
- *   login_logitrack_ims/screen.png
  */
 
 require_once dirname(__DIR__) . '/config/app.php';
@@ -112,8 +104,8 @@ $csrf_token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Logitrack IMS</title>
-    <meta name="description" content="Sign in to the Logitrack Inventory Management System.">
+    <title>Login — Logicore IMS</title>
+    <meta name="description" content="Sign in to the Logicore Inventory Management System.">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Google Fonts: Inter -->
@@ -138,7 +130,7 @@ $csrf_token = generate_csrf_token();
         <header class="auth-card__header">
             <div class="auth-card__brand">
                 <span class="material-symbols-outlined auth-card__brand-icon" aria-hidden="true">inventory_2</span>
-                <h1 class="auth-card__app-name">Logitrack IMS</h1>
+                <h1 class="auth-card__app-name">Logicore IMS</h1>
             </div>
             <h2 class="auth-card__title">Welcome Back</h2>
             <p class="auth-card__subtitle">Login to your operational hub</p>
@@ -250,7 +242,7 @@ $csrf_token = generate_csrf_token();
                 type="submit"
                 id="loginBtn"
                 class="btn btn-primary btn-block"
-                aria-label="Login to Logitrack IMS"
+                aria-label="Login to Logicore IMS"
             >
                 <span class="btn-text">Login</span>
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>

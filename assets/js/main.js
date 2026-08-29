@@ -1,7 +1,5 @@
 /**
- * main.js
- * Logitrack IMS — General UI Utilities
- *
+ * 
  * This file provides global UI helpers that are shared across all pages.
  * It is loaded on every page.
  *
@@ -16,22 +14,11 @@
 
 'use strict';
 
-/* =============================================================================
+/* 
    PASSWORD VISIBILITY TOGGLE
-   ============================================================================= */
+    */
 
-/**
- * Initialise all password-toggle buttons on the page.
- *
- * Expected markup:
- *   <div class="input-wrapper">
- *     <input type="password" id="password" class="form-control has-toggle">
- *     <button type="button" class="btn-toggle-password" aria-label="Toggle password visibility"
- *             data-target="password">
- *       <span class="material-symbols-outlined">visibility_off</span>
- *     </button>
- *   </div>
- */
+
 function initPasswordToggles() {
     const toggleButtons = document.querySelectorAll('.btn-toggle-password');
 
@@ -65,21 +52,13 @@ function initPasswordToggles() {
     });
 }
 
-/* =============================================================================
+/* 
    ALERT DISMISSAL
-   ============================================================================= */
+    */
 
 /**
  * Allow alerts with a close button to be dismissed.
- *
- * Expected markup:
- *   <div class="alert alert--error" role="alert">
- *     <span class="material-symbols-outlined">error</span>
- *     <span>Error message here.</span>
- *     <button type="button" class="alert__close" aria-label="Dismiss">
- *       <span class="material-symbols-outlined">close</span>
- *     </button>
- *   </div>
+ 
  */
 function initAlertDismissal() {
     document.addEventListener('click', function (e) {
@@ -94,6 +73,33 @@ function initAlertDismissal() {
     });
 }
 
+/* 
+   SIDEBAR TOGGLE
+    */
+
+function initSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = sidebar.classList.toggle('sidebar--open');
+            toggleBtn.setAttribute('aria-expanded', isOpen);
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('sidebar--open')) {
+                if (!sidebar.contains(e.target)) {
+                    sidebar.classList.remove('sidebar--open');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+    }
+}
+
 /* =============================================================================
    INITIALISE ON DOM READY
    ============================================================================= */
@@ -101,6 +107,7 @@ function initAlertDismissal() {
 document.addEventListener('DOMContentLoaded', function () {
     initPasswordToggles();
     initAlertDismissal();
+    initSidebarToggle();
 });
 
 /* =============================================================================

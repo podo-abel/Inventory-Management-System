@@ -256,3 +256,38 @@ function current_page(): string
     $file = basename($_SERVER['PHP_SELF'] ?? '', '.php');
     return $file ?: '';
 }
+
+/**
+ * Send an in-app notification to a user
+ */
+function send_notification($user_id, $title, $message, $link = null) {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('INSERT INTO notifications (user_id, title, message, link) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$user_id, $title, $message, $link]);
+        return true;
+    } catch (Exception $e) {
+        error_log('[Logitrack] send_notification failed: ' . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Send a notification to all users with a specific role
+ */
+function send_notification_to_role($role, $title, $message, $link = null) {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('SELECT id FROM users WHERE role = ? AND is_active = 1');
+        $stmt->execute([$role]);
+        $users = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        foreach ($users as $uid) {
+            send_notification($uid, $title, $message, $link);
+        }
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
