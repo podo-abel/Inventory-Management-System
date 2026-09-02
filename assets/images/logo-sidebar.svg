@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!--
+    LogiTrack — Sidebar icon variant (white on transparent)
+    Used inside the sidebar brand-icon-wrap which has its own background.
+  -->
+
+  <!-- Box outline -->
+  <rect x="6" y="10" width="44" height="44" rx="8" ry="8" fill="none" stroke="#FFFFFF" stroke-width="3.5"/>
+
+  <!-- Lid line -->
+  <line x1="6" y1="22" x2="50" y2="22" stroke="#FFFFFF" stroke-width="3.5"/>
+
+  <!-- Centre tape -->
+  <rect x="24" y="10" width="8" height="12" rx="1.5" fill="#FFFFFF" opacity="0.4"/>
+
+  <!-- Check-mark -->
+  <polyline points="16,36 23,43 35,29" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Tracking dot -->
+  <circle cx="50" cy="48" r="10" fill="#2EC4B6"/>
+  <circle cx="50" cy="46" r="3.5" fill="#FFFFFF"/>
+</svg>

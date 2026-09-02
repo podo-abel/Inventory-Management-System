@@ -37,6 +37,10 @@ $_ims_page_title = isset($page_title) ? e($page_title) . ' — ' . APP_NAME : AP
     <title><?= $_ims_page_title ?></title>
     <meta name="robots" content="noindex, nofollow">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="<?= app_base_url() ?>/assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= app_base_url() ?>/assets/images/favicon.svg">
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!--
+    LogiTrack — Primary Logo
+    Inventory Management System brand mark.
+    Combines a stylised box (inventory) with a location/tracking pin accent.
+    Uses project design-system colours:
+      Primary Blue  #4361EE
+      Primary Dark  #3A56D4
+      Success Teal  #2EC4B6  (tracking pin accent)
+      White         #FFFFFF  (icon details)
+  -->
+
+  <!-- Outer rounded box — represents inventory / warehouse -->
+  <rect x="64" y="96" width="384" height="320" rx="40" ry="40" fill="#4361EE"/>
+
+  <!-- Box lid / top flap — darker shade for depth -->
+  <path d="M64 136C64 113.909 81.909 96 104 96H408C430.091 96 448 113.909 448 136V176H64V136Z" fill="#3A56D4"/>
+
+  <!-- Lid centre line — the tape on top of a shipping box -->
+  <rect x="224" y="96" width="64" height="80" rx="4" fill="#FFFFFF" opacity="0.25"/>
+
+  <!-- Inner grid lines — organisation / structured inventory (horizontal) -->
+  <line x1="112" y1="264" x2="400" y2="264" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+  <line x1="112" y1="328" x2="400" y2="328" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Inner grid lines — vertical dividers -->
+  <line x1="208" y1="200" x2="208" y2="392" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+  <line x1="304" y1="200" x2="304" y2="392" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Check-mark in first cell — verified / tracked item -->
+  <polyline points="128,256 152,280 184,240" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+
+  <!-- Tracking pin — overlapping bottom-right corner -->
+  <g transform="translate(370, 310)">
+    <circle cx="0" cy="0" r="52" fill="#2EC4B6"/>
+    <circle cx="0" cy="-8" r="16" fill="#FFFFFF"/>
+    <path d="M0 8 L-10 -4 A16 16 0 0 1 10 -4 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

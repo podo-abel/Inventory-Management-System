@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!--
+    LogiTrack — Favicon (simplified)
+    Designed for clarity at 16×16, 32×32, and 48×48.
+    Simplified version: box + tracking-pin dot. No fine grid lines.
+  -->
+
+  <!-- Rounded box base -->
+  <rect x="4" y="8" width="48" height="48" rx="10" ry="10" fill="#4361EE"/>
+
+  <!-- Lid band -->
+  <path d="M4 18C4 12.477 8.477 8 14 8H50C55.523 8 60 12.477 60 18V22H4V18Z" fill="#3A56D4"/>
+
+  <!-- Centre tape on lid -->
+  <rect x="26" y="8" width="12" height="14" rx="2" fill="#FFFFFF" opacity="0.3"/>
+
+  <!-- Check-mark — simplified for small sizes -->
+  <polyline points="16,36 24,44 36,30" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+
+  <!-- Tracking dot — bottom-right accent -->
+  <circle cx="50" cy="48" r="12" fill="#2EC4B6"/>
+  <circle cx="50" cy="46" r="4" fill="#FFFFFF"/>
+</svg>

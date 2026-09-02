@@ -19,7 +19,7 @@ $_sb_csrf  = generate_csrf_token();
     <!-- Brand / Logo Area -->
     <div class="sidebar__brand">
         <div class="sidebar__brand-icon-wrap">
-            <span class="material-symbols-outlined sidebar__brand-icon" aria-hidden="true">inventory_2</span>
+            <img src="<?= app_base_url() ?>/assets/images/logo-sidebar.svg" alt="LogiTrack" class="sidebar__brand-icon" width="28" height="28">
         </div>
         <div>
             <h1 class="sidebar__brand-name"><?= APP_NAME ?></h1>
