@@ -74,7 +74,7 @@ $stats = [
     </div>
 </div>
 
-<div style="display:grid; grid-template-columns: 1fr 3fr; gap:var(--space-5);">
+<div class="form-grid" style="display:grid; grid-template-columns: 1fr 3fr; gap:var(--space-5);">
     <!-- Left: Profile Details -->
     <div class="content-card" style="margin:0;">
         <div class="content-card__header"><h2 class="content-card__title">Profile Information</h2></div>

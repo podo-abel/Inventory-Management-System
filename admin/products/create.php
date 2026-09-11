@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content-card__body">
         <form method="post">
             <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
                 <div class="form-group"><label class="form-label">SKU *</label><input class="form-input" name="sku" value="<?= e($_POST['sku'] ?? '') ?>" required placeholder="e.g. OFF-A4-500"></div>
                 <div class="form-group"><label class="form-label">Category</label>
                     <select class="form-input" name="category_id">

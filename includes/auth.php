@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/auth.php
- * Logitrack IMS — Authentication & Session Helpers
+ * GCM IMS — Authentication & Session Helpers
  *
  * Provides session management, login/logout, CSRF protection, and
  * role-based access control helpers.
@@ -157,7 +157,7 @@ function login_user(array $user): void
             $stmt->execute([':id' => (int) $user['id']]);
         }
     } catch (PDOException $e) {
-        error_log('[Logitrack Auth] last_login_at update failed: ' . $e->getMessage());
+        error_log('[GCM Auth] last_login_at update failed: ' . $e->getMessage());
     }
 }
 

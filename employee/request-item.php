@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log('[Logitrack] request submit failed: ' . $e->getMessage());
+                error_log('[GCM] request submit failed: ' . $e->getMessage());
                 $errors[] = 'Failed to submit request. Please try again.';
             }
         }
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="app-body">
 <?php require_once dirname(__DIR__) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
+<div class="page-header page-header--flex" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Request New Item</h1>
         <p class="text-body-lg color-on-surface-var" style="margin:0;">Select items and submit your request batch for manager approval.</p>
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
                 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
+                <div class="form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-4);">
                     <div class="form-group" style="margin:0;">
                         <label class="form-label">Quantity Required</label>
                         <input type="number" class="form-input" id="item-qty" min="1" value="1" style="padding:10px;">

@@ -56,7 +56,7 @@ $d = $_POST ?: $prod;
     <div class="content-card__body">
         <form method="post">
             <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
                 <div class="form-group"><label class="form-label">SKU *</label><input class="form-input" name="sku" value="<?= e($d['sku']) ?>" required></div>
                 <div class="form-group"><label class="form-label">Category</label>
                     <select class="form-input" name="category_id">

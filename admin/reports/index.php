@@ -14,7 +14,7 @@ $recent_requests = $pdo->query("SELECT r.*,u.full_name FROM requests r LEFT JOIN
 <main class="main-content">
 <div class="page-header"><h1 class="page-header__title">Admin Reports</h1></div>
 <?php require_once dirname(__DIR__, 2) . '/includes/alerts.php'; ?>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6);">
     <div class="content-card">
         <div class="content-card__header"><h2 class="content-card__title">Users by Role</h2></div>
         <div class="content-card__body" style="padding:0;">

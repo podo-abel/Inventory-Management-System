@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/permissions.php
- * Logitrack IMS — Role-Based Permissions & Navigation
+ * GCM IMS — Role-Based Permissions & Navigation
  *
  * Defines the permission matrix for all five roles and builds
  * role-appropriate navigation menus.

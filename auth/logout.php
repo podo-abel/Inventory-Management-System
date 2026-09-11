@@ -1,7 +1,7 @@
 <?php
 /**
  * auth/logout.php
- * Logitrack IMS — Logout Handler
+ * GCM IMS — Logout Handler
  *
  * Accepts a POST request with a valid CSRF token.
  * Destroys the session and redirects to the login page.
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]);
                 }
             } catch (PDOException $e) {
-                error_log('[Logitrack] logout log error: ' . $e->getMessage());
+                error_log('[GCM] logout log error: ' . $e->getMessage());
             }
         }
 

@@ -36,7 +36,7 @@ $requests = $stmt->fetchAll();
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
 <div class="content-card">
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-5);">
-        <form method="get" style="display:flex;gap:.75rem;align-items:center;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;align-items:center;">
             <label class="form-label" style="margin:0;">Show:</label>
             <?php foreach ($allowed as $s): ?><a href="?status=<?= $s ?>" class="btn <?= $status===$s?'btn--primary':'btn--secondary' ?>" style="padding:.3rem .8rem;font-size:.85rem;"><?= ucfirst($s) ?></a><?php endforeach; ?>
         </form>

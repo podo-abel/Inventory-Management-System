@@ -1,7 +1,7 @@
 <?php
 /**
  * config/database.php
- * Logitrack IMS — Database Configuration
+ * GCM IMS — Database Configuration
  *
  * Provides a PDO singleton connection to the MySQL/MariaDB database.
  * Never expose credentials or SQL errors to end users.
@@ -13,7 +13,7 @@
 
 // ── Database constants ─────────────────────────────────────────────────────
 define('DB_HOST',    'localhost');
-define('DB_NAME',    'logitrack_ims');
+define('DB_NAME',    'gcm_ims');
 define('DB_USER',    'root');
 define('DB_PASS',    '');
 define('DB_CHARSET', 'utf8mb4');
@@ -53,7 +53,7 @@ function get_db_connection(): ?PDO
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
     } catch (PDOException $e) {
         // Log technical detail — never expose to browser
-        error_log('[Logitrack DB] Connection failed: ' . $e->getMessage());
+        error_log('[GCM DB] Connection failed: ' . $e->getMessage());
         $pdo = null;
     }
 

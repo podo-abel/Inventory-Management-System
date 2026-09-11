@@ -1,6 +1,6 @@
 <?php
 /**
- * Logitrack IMS — Login Page
+ * GCM IMS — Login Page
  */
 
 require_once dirname(__DIR__) . '/config/app.php';
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo = get_db_connection();
             if (!$pdo) {
                 $login_error = 'A system error occurred. Please try again later.';
-                error_log('[Logitrack Login] DB connection failed');
+                error_log('[GCM Login] DB connection failed');
             } else {
                 try {
                     // Look up by username OR email
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ':ip'     => $_SERVER['REMOTE_ADDR'] ?? null,
                             ]);
                         } catch (PDOException $e) {
-                            error_log('[Logitrack] login log error: ' . $e->getMessage());
+                            error_log('[GCM] login log error: ' . $e->getMessage());
                         }
 
                         header('Location: ' . role_dashboard_url($user['role']));
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         usleep(300000);
                     }
                 } catch (PDOException $e) {
-                    error_log('[Logitrack Login] DB error: ' . $e->getMessage());
+                    error_log('[GCM Login] DB error: ' . $e->getMessage());
                     $login_error = 'A system error occurred. Please try again later.';
                 }
             }
@@ -104,8 +104,8 @@ $csrf_token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Logicore IMS</title>
-    <meta name="description" content="Sign in to the Logicore Inventory Management System.">
+    <title>Login — GCM IMS</title>
+    <meta name="description" content="Sign in to the Great Commission Ministry Inventory Management System.">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Favicon -->
@@ -120,7 +120,7 @@ $csrf_token = generate_csrf_token();
     <!-- Google Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
 
-    <!-- Logitrack IMS Styles -->
+    <!-- GCM IMS Styles -->
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
@@ -134,10 +134,10 @@ $csrf_token = generate_csrf_token();
         <header class="auth-card__header">
             <div class="auth-card__brand">
                 <span class="material-symbols-outlined auth-card__brand-icon" aria-hidden="true">inventory_2</span>
-                <h1 class="auth-card__app-name">Logicore IMS</h1>
+                <h1 class="auth-card__app-name">GCM IMS</h1>
             </div>
             <h2 class="auth-card__title">Welcome Back</h2>
-            <p class="auth-card__subtitle">Login to your operational hub</p>
+            <p class="auth-card__subtitle">Creating Spiritual Movement</p>
         </header>
 
         <!-- ── Flash messages ─────────────────────────────────────────── -->
@@ -246,7 +246,7 @@ $csrf_token = generate_csrf_token();
                 type="submit"
                 id="loginBtn"
                 class="btn btn-primary btn-block"
-                aria-label="Login to Logicore IMS"
+                aria-label="Login to GCM IMS"
             >
                 <span class="btn-text">Login</span>
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>

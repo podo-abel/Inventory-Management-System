@@ -56,7 +56,7 @@ $type_badge = ['receive'=>'badge--success','issue'=>'badge--info','adjustment'=>
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
 <div class="content-card">
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-5);">
-        <form method="get" style="display:flex;gap:.75rem;flex-wrap:wrap;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;flex-wrap:wrap;">
             <select class="form-input" name="type" style="width:auto;" onchange="this.form.submit()">
                 <option value="">All Types</option>
                 <?php foreach (['receive','issue','adjustment','return'] as $t): ?>

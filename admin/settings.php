@@ -9,7 +9,7 @@ if (get_current_role() !== 'admin') { header('Location: ' . app_base_url() . '/i
 <main class="main-content">
 <div class="page-header"><h1 class="page-header__title">System Settings</h1></div>
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
     <div class="content-card">
         <div class="content-card__header"><h2 class="content-card__title">Application Info</h2></div>
         <div class="content-card__body">

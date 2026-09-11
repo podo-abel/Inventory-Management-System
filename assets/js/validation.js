@@ -1,6 +1,6 @@
 /**
  * validation.js
- * Logitrack IMS — Client-side Form Validation Utilities
+ * GCM IMS — Client-side Form Validation Utilities
  *
  * This module provides reusable form validation helpers.
  * It does NOT perform any authentication or make any network requests.

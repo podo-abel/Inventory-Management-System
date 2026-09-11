@@ -9,7 +9,7 @@ $employees = $pdo->query("SELECT e.*, u.full_name, u.email, u.username, u.role F
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+<div class="page-header page-header--flex" style="display:flex;align-items:center;justify-content:space-between;">
     <div><h1 class="page-header__title">Employees</h1></div>
     <a href="create.php" class="btn btn--primary"><span class="material-symbols-outlined">person_add</span> Add Employee</a>
 </div>

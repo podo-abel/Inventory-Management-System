@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/footer.php
- * Logitrack IMS — Authenticated Page Footer
+ * GCM IMS — Authenticated Page Footer
  *
  * Closes the main content area and app shell.
  * Include at the very bottom of every authenticated page.
@@ -15,7 +15,7 @@
 
 <footer class="app-footer" role="contentinfo">
     <p class="app-footer__text">
-        &copy; <?= date('Y') ?> Logicore Operations. All rights reserved. (v<?= APP_VERSION ?>)
+        &copy; <?= date('Y') ?> Great Commission Ministry. All rights reserved. (v<?= APP_VERSION ?>)
     </p>
     <div class="app-footer__links">
         <a href="#" class="app-footer__link">Privacy Policy</a>

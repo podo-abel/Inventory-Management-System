@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
 <?php if (!empty($errors)): ?><div class="alert alert--error" style="margin-bottom:var(--space-4);"><?php foreach ($errors as $e_): ?><p style="margin:.2rem 0;"><?= e($e_) ?></p><?php endforeach; ?></div><?php endif; ?>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);">
 <div>
 <div class="content-card" style="margin-bottom:var(--space-5);">
     <div class="content-card__header"><h2 class="content-card__title">Personal Information</h2></div>

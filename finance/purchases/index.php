@@ -43,7 +43,7 @@ $statuses = ['draft','pending_approval','approved','ordered','partially_received
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Purchase Orders (<?= $total ?>)</h2><a href="<?= e(app_base_url()) ?>/finance/purchases/create.php" class="btn btn--primary"><span class="material-symbols-outlined">add</span> New PO</a></div>
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-5);">
-        <form method="get" style="display:flex;gap:.75rem;align-items:center;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;align-items:center;">
             <select class="form-input" name="status" style="width:auto;" onchange="this.form.submit()">
                 <option value="">All Statuses</option>
                 <?php foreach ($statuses as $s): ?><option value="<?= $s ?>" <?= $status_f===$s?'selected':'' ?>><?= ucfirst(str_replace('_',' ',$s)) ?></option><?php endforeach; ?>

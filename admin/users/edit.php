@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+<div class="page-header page-header--flex" style="display:flex;align-items:center;justify-content:space-between;">
     <div><h1 class="page-header__title">Edit User</h1><p class="page-header__subtitle"><?= e($user_row['username']) ?></p></div>
     <a href="index.php" class="btn btn--secondary"><span class="material-symbols-outlined">arrow_back</span> Back</a>
 </div>

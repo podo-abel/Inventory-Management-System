@@ -29,7 +29,7 @@ $recent_expenses  = $pdo->query("SELECT ex.id, ex.category, ex.description, ex.a
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--green"><span class="material-symbols-outlined">payments</span></div><div><p class="stat-card__label">Payments This Month</p><p class="stat-card__value"><?= e(format_currency($paid_month)) ?></p></div></div>
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--red"><span class="material-symbols-outlined">receipt_long</span></div><div><p class="stat-card__label">Expenses This Month</p><p class="stat-card__value"><?= e(format_currency($expense_month)) ?></p></div></div>
 </div>
-<div style="display:grid;grid-template-columns:3fr 2fr;gap:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:3fr 2fr;gap:var(--space-5);">
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Recent Purchase Orders</h2><a href="<?= e(app_base_url()) ?>/finance/purchases.php" class="btn btn--secondary">View All</a></div>
     <div class="content-card__body" style="padding:0;">

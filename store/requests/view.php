@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $req['status'] === 'approved') {
                 header('Location: ' . app_base_url() . '/store/requests.php'); exit;
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log('[Logitrack] issue_request error: ' . $e->getMessage());
+                error_log('[GCM] issue_request error: ' . $e->getMessage());
                 $errors[] = 'Failed to process. Please try again.';
             }
         }
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $req['status'] === 'approved') {
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
+<div class="page-header page-header--flex" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Process Approved Request</h1>
         <p class="text-body-lg color-on-surface-var" style="margin:0;">Reference: <code style="color:var(--color-secondary); font-size:16px;"><?= e($req['reference_no']) ?></code> &mdash; From <?= e($req['employee_name']) ?></p>
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $req['status'] === 'approved') {
 <?php require_once dirname(__DIR__, 2) . '/includes/alerts.php'; ?>
 <?php if (!empty($errors)): ?><div class="alert alert--error" style="margin-bottom:var(--space-4);"><?php foreach ($errors as $err): ?><p style="margin:.2rem 0;"><?= e($err) ?></p><?php endforeach; ?></div><?php endif; ?>
 
-<div style="display:grid; grid-template-columns: 8fr 4fr; gap:var(--space-6); align-items:start;">
+<div class="form-grid" style="display:grid; grid-template-columns: 8fr 4fr; gap:var(--space-6); align-items:start;">
     
     <!-- Left: Items to Issue -->
     <div class="content-card" style="margin:0;">

@@ -25,7 +25,7 @@ $total_expenses = (float)$pdo->query("SELECT COALESCE(SUM(amount),0) FROM expens
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--green"><span class="material-symbols-outlined">payments</span></div><div><p class="stat-card__label">Total Payments Made</p><p class="stat-card__value"><?= e(format_currency($total_payments)) ?></p></div></div>
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--red"><span class="material-symbols-outlined">receipt_long</span></div><div><p class="stat-card__label">Total Expenses</p><p class="stat-card__value"><?= e(format_currency($total_expenses)) ?></p></div></div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Purchase Orders by Status</h2></div>
     <div class="content-card__body" style="padding:0;">
@@ -55,7 +55,7 @@ $total_expenses = (float)$pdo->query("SELECT COALESCE(SUM(amount),0) FROM expens
     </div>
 </div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);">
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Monthly Expenses (Last 6 Months)</h2></div>
     <div class="content-card__body" style="padding:0;">

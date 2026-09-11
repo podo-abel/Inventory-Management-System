@@ -39,7 +39,7 @@ $cats = $pdo->query('SELECT id, name FROM categories WHERE is_active=1 ORDER BY 
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
 <div class="content-card">
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-4);">
-        <form method="get" style="display:flex;gap:.75rem;flex-wrap:wrap;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;flex-wrap:wrap;">
             <input class="form-input" name="search" value="<?= e($search) ?>" placeholder="Name or SKU…" style="flex:1;min-width:160px;">
             <select class="form-input" name="cat_id" style="width:auto;"><option value="">All Categories</option><?php foreach ($cats as $c): ?><option value="<?= (int)$c['id'] ?>" <?= $cat_id==$c['id']?'selected':'' ?>><?= e($c['name']) ?></option><?php endforeach; ?></select>
             <select class="form-input" name="filter" style="width:auto;">

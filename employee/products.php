@@ -39,7 +39,7 @@ $cats = $pdo->query('SELECT id, name FROM categories WHERE is_active=1 ORDER BY 
         <a href="<?= e(app_base_url()) ?>/employee/request-item.php" class="btn btn--primary"><span class="material-symbols-outlined">add_shopping_cart</span> New Request</a>
     </div>
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-4);">
-        <form method="get" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:flex-end;">
             <div class="form-group" style="margin:0;flex:1;min-width:160px;">
                 <label class="form-label">Search</label>
                 <input class="form-input" name="search" value="<?= e($search) ?>" placeholder="Name or SKU…">

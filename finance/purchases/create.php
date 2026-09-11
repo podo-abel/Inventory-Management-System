@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ' . app_base_url() . '/finance/purchases/view.php?id=' . $po_id); exit;
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log('[Logitrack] create_purchase error: ' . $e->getMessage());
+                error_log('[GCM] create_purchase error: ' . $e->getMessage());
                 $errors[] = 'Failed to create PO. Please try again.';
             }
         }
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <input type="hidden" name="csrf_token" value="<?= e(generate_csrf_token()) ?>">
 <div class="content-card" style="margin-bottom:var(--space-5);">
     <div class="content-card__header"><h2 class="content-card__title">Order Details</h2></div>
-    <div class="content-card__body" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+    <div class="content-card__body form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
         <div class="form-group"><label class="form-label">Supplier *</label>
             <select class="form-input" name="supplier_id" required>
                 <option value="">— Select Supplier —</option>

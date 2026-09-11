@@ -1,28 +1,304 @@
 /*
  * responsive.css
- * Logitrack IMS — Responsive Breakpoints
+ * GCM IMS — Comprehensive Responsive Breakpoints
  *
- * Breakpoints (from DESIGN.md):
- *   Mobile first approach.
- *   Key breakpoint: 768px (sidebar collapses, cards stack).
+ * Breakpoints (desktop-first):
+ *   1024px — Tablet landscape
+ *    768px — Tablet portrait (sidebar collapses)
+ *    480px — Large phone
+ *    375px — Small phone
  *
- * This file must be loaded AFTER components.css.
+ * This file must be loaded AFTER layout.css and components.css.
+ *
+ * Many page layouts use INLINE styles in PHP templates.
+ * Where necessary, !important is used in media queries to
+ * override those inline styles on smaller screens.
  */
 
 /* =============================================================================
-   1. AUTH CARD — SMALL SCREENS
+   0. GLOBAL — PREVENT HORIZONTAL OVERFLOW
    ============================================================================= */
 
-/**
- * On screens narrower than 480px the auth card fills the full width and
- * uses slightly reduced padding so content does not feel cramped.
- */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+img,
+video,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* =============================================================================
+   1. RESPONSIVE UTILITY CLASSES
+   ============================================================================= */
+
+/** Screen-reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/** Table responsive wrapper — contains horizontal scroll within the card */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* =============================================================================
+   2. SIDEBAR OVERLAY
+   ============================================================================= */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 250;   /* Between navbar (200) and sidebar (300) */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* =============================================================================
+   3. AUTH CARD — LARGE SCREENS
+   ============================================================================= */
+
+@media (min-width: 1024px) {
+    .auth-page {
+        background-color: var(--color-surface-container);
+    }
+}
+
+/* =============================================================================
+   4. TABLET LANDSCAPE — 1024px
+   ============================================================================= */
+
+@media (max-width: 1024px) {
+    /* Slightly narrower search bar */
+    .navbar__search {
+        width: 200px;
+    }
+
+    /* Stats grid: 2 columns */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Dashboard grids: reduce column minimum */
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    }
+}
+
+/* =============================================================================
+   5. TABLET PORTRAIT — 768px (MAIN BREAKPOINT)
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    /* ── Sidebar Off-Canvas ─────────────────────────────────── */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.sidebar--open {
+        transform: translateX(0);
+        box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ── Navbar ──────────────────────────────────────────────── */
+    .navbar {
+        margin-left: 0;
+        padding: 0 var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .navbar__menu-btn {
+        display: flex;  /* Show hamburger */
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar__page-title {
+        font-size: var(--text-title-md-size);
+    }
+
+    /* Hide desktop-only navbar items */
+    .navbar__search,
+    .navbar__divider {
+        display: none;
+    }
+
+    /* Hide user name/role text, keep avatar */
+    .navbar__user-info {
+        display: none;
+    }
+
+    .navbar__right {
+        gap: var(--space-2);
+    }
+
+    /* Notification dropdown: full-width on mobile */
+    #notif-dropdown {
+        width: calc(100vw - 32px) !important;
+        right: -60px !important;
+        max-width: 340px;
+    }
+
+    /* ── Main Content ───────────────────────────────────────── */
+    .main-content {
+        margin-left: 0;
+        padding: var(--space-4);
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    .app-footer {
+        margin-left: 0;
+        padding: var(--space-3) var(--space-4);
+        flex-direction: column;
+        gap: var(--space-3);
+        text-align: center;
+    }
+
+    .app-footer__links {
+        justify-content: center;
+    }
+
+    /* ── Page Headers ───────────────────────────────────────── */
+    .page-header--flex {
+        flex-wrap: wrap !important;
+        gap: var(--space-3) !important;
+    }
+
+    .page-header__title {
+        font-size: var(--text-headline-lg-size, 24px);
+    }
+
+    /* ── Stats Grid ─────────────────────────────────────────── */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ── Dashboard Grids ────────────────────────────────────── */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Span-2 items become single column on mobile */
+    .dashboard-grid__wide,
+    .dashboard-grid > [style*="grid-column: span 2"],
+    .dashboard-grid > [style*="grid-column:span 2"] {
+        grid-column: span 1 !important;
+    }
+
+    /* ── Form Grids ─────────────────────────────────────────── */
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Full-span items in form grids no longer need span override */
+    .form-grid > [style*="grid-column:1/-1"],
+    .form-grid > [style*="grid-column: 1/-1"] {
+        grid-column: 1 / -1 !important;
+    }
+
+    /* Content cards with max-width should expand on mobile */
+    .content-card[style*="max-width"] {
+        max-width: 100% !important;
+    }
+
+    /* ── Filter Forms ───────────────────────────────────────── */
+    .filter-form {
+        flex-wrap: wrap !important;
+        gap: var(--space-2) !important;
+        width: 100%;
+    }
+
+    .filter-form .form-control,
+    .filter-form .form-input,
+    .filter-form input[type="text"],
+    .filter-form select {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    /* Content card headers: stack on mobile when they contain filters */
+    .content-card__header {
+        flex-wrap: wrap;
+        gap: var(--space-3);
+    }
+
+    /* ── Tables ──────────────────────────────────────────────── */
+    /* Ensure table containers scroll horizontally */
+    .content-card__body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px 12px;
+        font-size: var(--text-body-sm-size);
+    }
+
+    /* Table action buttons: bigger touch targets */
+    .table .btn {
+        padding: 6px 10px !important;
+        font-size: var(--text-body-sm-size) !important;
+        min-height: 32px;
+    }
+
+    /* ── Charts ──────────────────────────────────────────────── */
+    .content-card__body canvas {
+        max-width: 100%;
+    }
+
+    /* ── Pagination ──────────────────────────────────────────── */
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    /* ── Form action rows ───────────────────────────────────── */
+    /* Buttons at bottom of forms */
+    [style*="display:flex"][style*="margin-top:var(--space-4)"] {
+        flex-wrap: wrap;
+    }
+}
+
+/* =============================================================================
+   6. LARGE PHONE — 480px
+   ============================================================================= */
+
 @media (max-width: 480px) {
+    /* ── Main Content: tighter padding ──────────────────────── */
+    .main-content {
+        padding: var(--space-3);
+    }
+
+    /* ── Auth Card ───────────────────────────────────────────── */
     .auth-card {
         padding: var(--space-lg);
         border-radius: var(--radius-base);
-        /* Remove the card shadow on very small screens — the full-width
-           container becomes the primary visual boundary. */
         box-shadow: none;
         border: none;
     }
@@ -43,12 +319,195 @@
         font-size: var(--text-title-md-size);
         line-height: var(--text-title-md-height);
     }
+
+    /* ── Page Header ────────────────────────────────────────── */
+    .page-header {
+        margin-bottom: var(--space-4);
+    }
+
+    .page-header__title {
+        font-size: var(--text-title-lg-size, 20px);
+    }
+
+    .page-header__subtitle {
+        font-size: var(--text-body-sm-size);
+    }
+
+    /* ── Stat Cards ─────────────────────────────────────────── */
+    .stat-card {
+        padding: var(--space-3);
+    }
+
+    .stats-grid {
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+    }
+
+    /* ── Content Cards ──────────────────────────────────────── */
+    .content-card__header {
+        padding: var(--space-3) var(--space-3);
+    }
+
+    .content-card__body {
+        padding: var(--space-3);
+    }
+
+    /* Override padding:0 for table containers */
+    .content-card__body[style*="padding:0"] {
+        padding: 0 !important;
+    }
+
+    .content-card__title {
+        font-size: var(--text-body-md-size);
+    }
+
+    /* ── Tables ──────────────────────────────────────────────── */
+    .table th,
+    .table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .table th {
+        font-size: 10px;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+        font-size: var(--text-body-sm-size);
+        padding: 8px var(--space-sm);
+    }
+
+    /* ── Alerts ──────────────────────────────────────────────── */
+    .alert {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 12px;
+    }
+
+    /* ── Badge ───────────────────────────────────────────────── */
+    .badge {
+        font-size: 10px;
+        padding: 1px 6px;
+    }
+
+    /* ── Navbar compact ─────────────────────────────────────── */
+    .navbar {
+        height: 56px;
+        padding: 0 var(--space-2);
+    }
+
+    .navbar__page-title {
+        font-size: var(--text-body-md-size);
+    }
+
+    .navbar__icon-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .navbar__avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    /* ── Footer compact ─────────────────────────────────────── */
+    .app-footer {
+        padding: var(--space-2) var(--space-3);
+    }
+
+    .app-footer__text,
+    .app-footer__link {
+        font-size: 11px;
+    }
+
+    /* ── Sidebar compact ────────────────────────────────────── */
+    .sidebar {
+        width: 240px;
+    }
+
+    .sidebar__brand {
+        padding: var(--space-4) var(--space-3) var(--space-3);
+    }
+
+    .sidebar__brand-name {
+        font-size: var(--text-body-md-size);
+    }
+
+    .sidebar__link {
+        font-size: var(--text-body-sm-size);
+        padding: var(--space-2);
+    }
+
+    /* ── Dashboard grids: reduce gap ────────────────────────── */
+    .dashboard-grid {
+        gap: var(--space-3) !important;
+    }
+
+    /* ── Chart containers ───────────────────────────────────── */
+    .content-card__body[style*="min-height:300px"] {
+        min-height: 200px !important;
+    }
+
+    /* ── Pagination compact ─────────────────────────────────── */
+    .pagination {
+        gap: var(--space-xs);
+    }
+
+    .pagination__link {
+        min-width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
 }
 
-/**
- * On very small screens (320px) collapse the form row that holds
- * "Remember me" and "Forgot password?" into a column.
- */
+/* =============================================================================
+   7. SMALL PHONE — 375px
+   ============================================================================= */
+
+@media (max-width: 375px) {
+    .main-content {
+        padding: var(--space-2);
+    }
+
+    .stat-card {
+        padding: var(--space-2);
+        gap: var(--space-2);
+    }
+
+    .stat-card__value {
+        font-size: var(--text-title-lg-size, 18px);
+    }
+
+    .page-header__title {
+        font-size: var(--text-title-md-size, 18px);
+    }
+
+    .content-card {
+        border-radius: var(--radius-base);
+    }
+
+    .content-card__header {
+        padding: var(--space-2);
+    }
+
+    .content-card__body {
+        padding: var(--space-2);
+    }
+
+    .navbar__page-title {
+        font-size: var(--text-body-sm-size);
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+/* =============================================================================
+   8. VERY SMALL — 360px (form-row collapse)
+   ============================================================================= */
+
 @media (max-width: 360px) {
     .form-row {
         flex-direction: column;
@@ -58,81 +517,82 @@
 }
 
 /* =============================================================================
-   2. AUTH PAGE BACKGROUND
+   9. TOUCH DEVICE OPTIMIZATIONS
    ============================================================================= */
 
-/**
- * On very large screens, keep the background visually interesting by
- * slightly darkening the container around the auth card.
- */
-@media (min-width: 1024px) {
-    .auth-page {
-        background-color: var(--color-surface-container);
-    }
-}
-
-/* =============================================================================
-   3. TABLET & MOBILE — GENERAL
-   ============================================================================= */
-
-/**
- * At 768px the DESIGN.md specifies the sidebar collapses.
- * Navbar menu button becomes visible.
- */
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
-    }
-    
-    .sidebar.sidebar--open {
-        transform: translateX(0);
-        box-shadow: 0 0 24px rgba(0,0,0,0.5);
-    }
-    
-    .navbar {
-        margin-left: 0;
-        padding: 0 var(--space-4);
-    }
-    
-    .navbar__menu-btn {
-        display: block; /* Show hamburger */
-    }
-    
-    .main-content {
-        margin-left: 0;
-        padding: var(--space-4);
-    }
-    
-    .app-footer {
-        margin-left: 0;
-        padding: var(--space-4);
-        flex-direction: column;
-        gap: var(--space-3);
-    }
-    
-    /* Hide desktop-only navbar items */
-    .navbar__search,
-    .navbar__divider {
-        display: none;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =============================================================================
-   4. FOCUS VISIBILITY ON TOUCH DEVICES
-   ============================================================================= */
-
-/**
- * On touch-primary devices the :focus-visible outline can be noisy.
- * We keep it since keyboard navigation is important for accessibility,
- * but we use a slightly softer ring.
- */
 @media (hover: none) and (pointer: coarse) {
+    /* Ensure minimum touch target sizes */
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Table action buttons need comfortable touch targets */
+    .table .btn {
+        min-height: 36px;
+        min-width: 36px;
+        padding: 6px 12px !important;
+    }
+
+    /* Sidebar links: comfortable touch targets */
+    .sidebar__link {
+        min-height: 44px;
+    }
+
+    /* Pagination links: comfortable touch targets */
+    .pagination__link {
+        min-height: 40px;
+        min-width: 40px;
+    }
+
+    /* Focus visibility: softer ring on touch */
     :focus-visible {
         outline-offset: 3px;
+    }
+
+    /* Form inputs: comfortable height */
+    .form-control,
+    .form-input,
+    select.form-input {
+        min-height: 44px;
+    }
+}
+
+/* =============================================================================
+   10. UTILITY VISIBILITY CLASSES
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .show-mobile {
+        display: none !important;
+    }
+}
+
+/* =============================================================================
+   11. PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .sidebar,
+    .sidebar-overlay,
+    .navbar,
+    .app-footer {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .content-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
     }
 }

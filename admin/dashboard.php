@@ -19,7 +19,7 @@ $role_counts      = $pdo->query("SELECT role,COUNT(*) cnt FROM users WHERE is_ac
 <div class="app-body">
 <?php require_once dirname(__DIR__) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
+<div class="page-header page-header--flex" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Admin Dashboard</h1>
         <p class="text-body-lg color-on-surface-var" style="margin:0;">Overview of system metrics and recent activities.</p>
@@ -103,9 +103,9 @@ $role_counts      = $pdo->query("SELECT role,COUNT(*) cnt FROM users WHERE is_ac
 </div>
 
 <!-- Charts Section -->
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-6); margin-bottom:var(--space-6);">
+<div class="dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-6); margin-bottom:var(--space-6);">
     <!-- Line Chart -->
-    <div class="content-card" style="grid-column: span 2; margin-bottom:0; display:flex; flex-direction:column;">
+    <div class="content-card dashboard-grid__wide" style="grid-column: span 2; margin-bottom:0; display:flex; flex-direction:column;">
         <div class="content-card__header" style="background-color:transparent;">
             <h3 class="text-title-md color-on-surface" style="margin:0;">Monthly Inventory Movement</h3>
             <select class="form-input" style="width:auto; padding:4px 32px 4px 12px; font-size:var(--text-body-sm-size);">
@@ -131,9 +131,9 @@ $role_counts      = $pdo->query("SELECT role,COUNT(*) cnt FROM users WHERE is_ac
 </div>
 
 <!-- Tables Row -->
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-6);">
+<div class="dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:var(--space-6);">
     <!-- Recent Activities Table -->
-    <div class="content-card" style="grid-column: span 2; margin-bottom:0;">
+    <div class="content-card dashboard-grid__wide" style="grid-column: span 2; margin-bottom:0;">
         <div class="content-card__header" style="background-color:var(--color-surface-container-low);">
             <h3 class="text-title-md color-on-surface" style="margin:0;">Recent Activities</h3>
             <a href="<?= e(app_base_url()) ?>/admin/activity-log.php" class="color-secondary text-label-md" style="text-decoration:none;">VIEW ALL</a>

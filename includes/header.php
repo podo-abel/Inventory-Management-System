@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/header.php
- * Logitrack IMS — Authenticated Page Header
+ * GCM IMS — Authenticated Page Header
  *
  * Outputs the HTML <head> and opens the app shell for all authenticated pages.
  * Must be included at the very top of every authenticated page.
@@ -49,7 +49,7 @@ $_ims_page_title = isset($page_title) ? e($page_title) . ' — ' . APP_NAME : AP
     <!-- Google Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
 
-    <!-- Logitrack IMS Styles -->
+    <!-- GCM IMS Styles -->
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/components.css">
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/layout.css">

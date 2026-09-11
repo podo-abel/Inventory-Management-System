@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log('[Logitrack] issue_stock error: ' . $e->getMessage());
+                error_log('[GCM] issue_stock error: ' . $e->getMessage());
                 $errors[] = 'Failed to process. Please try again.';
             }
         }

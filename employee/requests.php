@@ -54,7 +54,7 @@ $statuses = ['pending','approved','rejected','processing','issued','completed','
         <a href="<?= e(app_base_url()) ?>/employee/request-item.php" class="btn btn--primary"><span class="material-symbols-outlined">add_shopping_cart</span> New Request</a>
     </div>
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-5);">
-        <form method="get" style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;">
             <label class="form-label" style="margin:0;">Filter by Status:</label>
             <select class="form-input" name="status" style="width:auto;" onchange="this.form.submit()">
                 <option value="">All</option>

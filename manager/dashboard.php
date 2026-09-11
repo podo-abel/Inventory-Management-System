@@ -33,7 +33,7 @@ $pending_reqs = $pdo->query(
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--green"><span class="material-symbols-outlined">check_circle</span></div><div><p class="stat-card__label">Approved This Week</p><p class="stat-card__value"><?= e($approved_week) ?></p></div></div>
 </div>
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5);">
+<div class="form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5);">
     <div class="content-card" style="margin-bottom:0;">
         <div class="content-card__header">
             <h2 class="content-card__title">Pending Requests</h2>

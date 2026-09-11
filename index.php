@@ -1,7 +1,7 @@
 <?php
 /**
  * index.php
- * Logitrack IMS — Entry Point
+ * GCM IMS — Entry Point
  *
  * Routes authenticated users to their role dashboard.
  * Redirects unauthenticated users to the login page.

@@ -14,7 +14,7 @@ $emp = $pdo->prepare('SELECT * FROM employees WHERE user_id=?'); $emp->execute([
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+<div class="page-header page-header--flex" style="display:flex;align-items:center;justify-content:space-between;">
     <div><h1 class="page-header__title">User: <?= e($user_row['full_name']) ?></h1></div>
     <div style="display:flex;gap:var(--space-2);">
         <a href="edit.php?id=<?= e($id) ?>" class="btn btn--primary">Edit</a>

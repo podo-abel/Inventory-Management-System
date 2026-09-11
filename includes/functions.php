@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/functions.php
- * Logitrack IMS — General Utility Functions
+ * GCM IMS — General Utility Functions
  *
  * Reusable helper functions used across all modules.
  * No side effects — pure utilities only.
@@ -239,7 +239,7 @@ function log_activity(
             ':ip'          => $ip,
         ]);
     } catch (PDOException $e) {
-        error_log('[Logitrack] log_activity failed: ' . $e->getMessage());
+        error_log('[GCM] log_activity failed: ' . $e->getMessage());
     }
 }
 
@@ -268,7 +268,7 @@ function send_notification($user_id, $title, $message, $link = null) {
         $stmt->execute([$user_id, $title, $message, $link]);
         return true;
     } catch (Exception $e) {
-        error_log('[Logitrack] send_notification failed: ' . $e->getMessage());
+        error_log('[GCM] send_notification failed: ' . $e->getMessage());
         return false;
     }
 }

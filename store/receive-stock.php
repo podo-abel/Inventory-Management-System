@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ' . app_base_url() . '/store/inventory.php'); exit;
             } catch (Exception $e) {
                 $pdo->rollBack();
-                error_log('[Logitrack] receive_stock error: ' . $e->getMessage());
+                error_log('[GCM] receive_stock error: ' . $e->getMessage());
                 $errors[] = 'Failed to process. Please try again.';
             }
         }

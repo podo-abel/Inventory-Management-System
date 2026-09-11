@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header('Location: ' . app_base_url() . '/store/inventory.php'); exit;
                 } catch (Exception $e) {
                     $pdo->rollBack();
-                    error_log('[Logitrack] stock_adjustment error: ' . $e->getMessage());
+                    error_log('[GCM] stock_adjustment error: ' . $e->getMessage());
                     $errors[] = 'Failed to process. Please try again.';
                 }
             }

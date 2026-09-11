@@ -1,14 +1,14 @@
 <?php
 /**
  * auth/forgot-password.php
- * Logitrack IMS — Forgot Password Page (UI Phase)
+ * GCM IMS — Forgot Password Page (UI Phase)
  *
  * This page provides the UI for password-reset request.
  * The actual backend email / token logic belongs to the Authentication phase.
  *
  * Stitch reference:
  *   No dedicated Stitch screen found for forgot-password.
- *   Design follows the login card pattern from login_logitrack_ims/code.html.
+ *   Design follows the login card pattern from login_gcm_ims/code.html.
  */
 
 // Backend placeholder: in the auth phase this will process the POST and
@@ -25,8 +25,8 @@ if (isset($_GET['sent']) && $_GET['sent'] === '1') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password — Logicore IMS</title>
-    <meta name="description" content="Reset your Logicore IMS account password.">
+    <title>Forgot Password — GCM IMS</title>
+    <meta name="description" content="Reset your GCM IMS account password.">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Favicon -->
@@ -41,7 +41,7 @@ if (isset($_GET['sent']) && $_GET['sent'] === '1') {
     <!-- Google Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
 
-    <!-- Logitrack IMS Styles -->
+    <!-- GCM IMS Styles -->
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/components.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
@@ -61,7 +61,7 @@ if (isset($_GET['sent']) && $_GET['sent'] === '1') {
         <header class="auth-card__header">
             <div class="auth-card__brand">
                 <span class="material-symbols-outlined auth-card__brand-icon" aria-hidden="true">inventory_2</span>
-                <h1 class="auth-card__app-name">Logicore IMS</h1>
+                <h1 class="auth-card__app-name">GCM IMS</h1>
             </div>
             <h2 class="auth-card__title">Reset Your Password</h2>
             <p class="auth-card__subtitle">

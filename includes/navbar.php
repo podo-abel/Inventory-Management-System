@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/navbar.php
- * Logitrack IMS — Top Navigation Bar
+ * GCM IMS — Top Navigation Bar
  *
  * Matches Stitch design: light bg-surface background, page title on left,
  * search bar + notifications + user info on right.

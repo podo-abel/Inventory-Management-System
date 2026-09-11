@@ -27,7 +27,7 @@ $type_badge = ['receive'=>'badge--success','issue'=>'badge--info','adjustment'=>
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--yellow"><span class="material-symbols-outlined">warning</span></div><div><p class="stat-card__label">Low Stock</p><p class="stat-card__value"><?= $low_prod ?></p></div></div>
     <div class="stat-card"><div class="stat-card__icon-wrap stat-card__icon-wrap--red"><span class="material-symbols-outlined">block</span></div><div><p class="stat-card__label">Out of Stock</p><p class="stat-card__value"><?= $out_prod ?></p></div></div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Movements by Type</h2></div>
     <div class="content-card__body" style="padding:0;">

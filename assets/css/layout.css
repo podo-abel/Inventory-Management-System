@@ -1,6 +1,6 @@
 /**
  * assets/css/layout.css
- * Logitrack IMS — Authenticated App Shell Layout
+ * GCM IMS — Authenticated App Shell Layout
  *
  * Defines the two-column layout: fixed sidebar + scrollable main content.
  * Works in concert with main.css design tokens.
@@ -12,6 +12,7 @@
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--color-bg);
+    overflow-x: hidden;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────────────── */

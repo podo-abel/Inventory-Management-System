@@ -30,7 +30,7 @@ foreach($cats as $c) {
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex;align-items:center;justify-content:space-between; margin-bottom:var(--space-6);">
+<div class="page-header page-header--flex" style="display:flex;align-items:center;justify-content:space-between; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Categories</h1>
         <p class="text-body-lg color-on-surface-var" style="margin:0;">Organize and manage your product groupings.</p>
@@ -59,7 +59,7 @@ foreach($cats as $c) {
 <div class="content-card">
     <div class="content-card__header" style="display:flex; justify-content:space-between; align-items:center;">
         <h2 class="content-card__title">Category Directory</h2>
-        <form method="GET" style="display:flex; gap:10px;">
+        <form method="GET" class="filter-form" style="display:flex; gap:10px;">
             <input type="text" name="q" class="form-input" placeholder="Search categories..." value="<?= e($q) ?>" style="max-width:250px;">
             <button type="submit" class="btn btn--secondary">Search</button>
             <?php if($q): ?><a href="index.php" class="btn btn--secondary">Clear</a><?php endif; ?>

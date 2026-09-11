@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/alerts.php
- * Logitrack IMS — Flash Message Renderer
+ * GCM IMS — Flash Message Renderer
  *
  * Reads and outputs any pending flash message from the session.
  * Include this after start_secure_session() wherever alerts should appear.

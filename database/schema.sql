@@ -1,5 +1,5 @@
 -- =============================================================================
--- Logitrack IMS — Database Schema
+-- GCM IMS — Database Schema (Great Commission Ministry)
 -- Engine: MariaDB 10.4 (XAMPP)
 -- Charset: utf8mb4
 -- Collation: utf8mb4_unicode_ci
@@ -11,16 +11,16 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET FOREIGN_KEY_CHECKS = 0;
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+03:00";
 
 -- -----------------------------------------------------------------------------
 -- DATABASE
 -- -----------------------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `logitrack_ims`
+CREATE DATABASE IF NOT EXISTS `gcm_ims`
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE `logitrack_ims`;
+USE `gcm_ims`;
 
 -- =============================================================================
 -- 1. USERS

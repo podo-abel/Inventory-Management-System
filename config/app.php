@@ -1,22 +1,22 @@
 <?php
 /**
  * config/app.php
- * Logitrack IMS — Application Configuration
+ * GCM IMS — Application Configuration
  *
  * Application-wide constants and settings.
  * Include before any other application file.
  */
 
 // ── Environment ────────────────────────────────────────────────────────────
-define('APP_NAME',    'Logicore IMS');
+define('APP_NAME',    'GCM IMS');
 define('APP_VERSION', '1.0.0');
 define('APP_ENV',     'development');
 
 // ── Timezone ───────────────────────────────────────────────────────────────
-date_default_timezone_set('America/New_York');
+date_default_timezone_set('Africa/Addis_Ababa');
 
 // ── Session ────────────────────────────────────────────────────────────────
-define('SESSION_NAME',     'logitrack_session');
+define('SESSION_NAME',     'gcm_session');
 define('SESSION_LIFETIME', 7200);
 
 // ── Paths ──────────────────────────────────────────────────────────────────
@@ -61,7 +61,7 @@ function role_dashboard_url(string $role): string
 }
 
 // ── Currency ───────────────────────────────────────────────────────────────
-define('CURRENCY_SYMBOL', '₱');
+define('CURRENCY_SYMBOL', 'ETB ');
 
 // ── Pagination ─────────────────────────────────────────────────────────────
 define('ITEMS_PER_PAGE', 15);

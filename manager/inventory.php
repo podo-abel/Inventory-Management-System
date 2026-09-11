@@ -37,7 +37,7 @@ foreach ($products as $p) { if ($p['quantity_in_stock'] <= 0) $out_count++; else
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Products (<?= count($products) ?>)</h2></div>
     <div class="content-card__body" style="border-bottom:1px solid var(--color-border);padding:var(--space-4);">
-        <form method="get" style="display:flex;gap:.75rem;flex-wrap:wrap;">
+        <form method="get" class="filter-form" style="display:flex;gap:.75rem;flex-wrap:wrap;">
             <input class="form-input" name="search" value="<?= e($search) ?>" placeholder="Search by name or SKU…" style="flex:1;min-width:180px;">
             <select class="form-input" name="cat_id" style="width:auto;">
                 <option value="">All Categories</option>

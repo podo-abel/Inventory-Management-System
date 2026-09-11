@@ -64,7 +64,7 @@ $items = $items->fetchAll();
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
+<div class="page-header page-header--flex" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Request Approvals</h1>
         <p class="text-body-lg color-on-surface-var" style="margin:0;">Review and manage employee item requests</p>
@@ -77,7 +77,7 @@ $items = $items->fetchAll();
 <?php if (!empty($errors)): ?><div class="alert alert--error" style="margin-bottom:var(--space-4);"><?php foreach ($errors as $err): ?><p style="margin:.2rem 0;"><?= e($err) ?></p><?php endforeach; ?></div><?php endif; ?>
 
 <!-- Split Layout -->
-<div style="display:grid; grid-template-columns: 7fr 5fr; gap:var(--space-6); align-items:start;">
+<div class="form-grid" style="display:grid; grid-template-columns: 7fr 5fr; gap:var(--space-6); align-items:start;">
     
     <!-- Left Column: Requested Items Table -->
     <div class="content-card" style="margin:0;">

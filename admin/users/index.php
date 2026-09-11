@@ -30,7 +30,7 @@ $users = $stmt->fetchAll();
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+<div class="page-header page-header--flex" style="display:flex;align-items:center;justify-content:space-between;">
     <div><h1 class="page-header__title">User Management</h1><p class="page-header__subtitle">Manage system access and roles.</p></div>
     <a href="<?= e(app_base_url()) ?>/admin/users/create.php" class="btn btn--primary"><span class="material-symbols-outlined">person_add</span> Add User</a>
 </div>
@@ -38,7 +38,7 @@ $users = $stmt->fetchAll();
 <div class="content-card">
     <div class="content-card__header">
         <h2 class="content-card__title">All Users</h2>
-        <form method="GET" style="display:flex;gap:var(--space-2);align-items:center;">
+        <form method="GET" class="filter-form" style="display:flex;gap:var(--space-2);align-items:center;">
             <input type="text" name="search" class="form-control" placeholder="Search..." value="<?= e($search) ?>" style="width:200px;">
             <select name="role" class="form-control">
                 <option value="">All Roles</option>

@@ -27,7 +27,7 @@ $users_list = $pdo->query("SELECT id,full_name FROM users ORDER BY full_name")->
 <div class="content-card">
     <div class="content-card__header">
         <h2 class="content-card__title">Log Entries</h2>
-        <form method="GET" style="display:flex;gap:var(--space-2);">
+        <form method="GET" class="filter-form" style="display:flex;gap:var(--space-2);">
             <select name="user_id" class="form-control" style="width:180px;">
                 <option value="">All Users</option>
                 <?php foreach($users_list as $ul): ?><option value="<?= e($ul['id']) ?>" <?= $filter_user===$ul['id']?'selected':'' ?>><?= e($ul['full_name']) ?></option><?php endforeach; ?>

@@ -19,7 +19,7 @@ $emp_requests  = $pdo->query("SELECT u.full_name, COUNT(r.id) AS total, SUM(r.st
 <div class="page-header"><h1 class="page-header__title">Reports</h1><p class="page-header__subtitle">Operational summary and insights.</p></div>
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
+<div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-5);">
 <div class="content-card">
     <div class="content-card__header"><h2 class="content-card__title">Requests by Status</h2></div>
     <div class="content-card__body" style="padding:0;">

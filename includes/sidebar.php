@@ -1,7 +1,7 @@
 <?php
 /**
  * includes/sidebar.php
- * Logitrack IMS — Left Sidebar Navigation
+ * GCM IMS — Left Sidebar Navigation
  *
  * Renders the role-appropriate sidebar navigation menu.
  * Matches Stitch design: dark navy background, logo area at top,
@@ -19,7 +19,7 @@ $_sb_csrf  = generate_csrf_token();
     <!-- Brand / Logo Area -->
     <div class="sidebar__brand">
         <div class="sidebar__brand-icon-wrap">
-            <img src="<?= app_base_url() ?>/assets/images/logo-sidebar.svg" alt="LogiTrack" class="sidebar__brand-icon" width="28" height="28">
+            <img src="<?= app_base_url() ?>/assets/images/logo-sidebar.svg" alt="GCM" class="sidebar__brand-icon" width="28" height="28">
         </div>
         <div>
             <h1 class="sidebar__brand-name"><?= APP_NAME ?></h1>
@@ -67,4 +67,5 @@ $_sb_csrf  = generate_csrf_token();
         </form>
     </div>
 </aside>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <?php unset($_sb_role, $_sb_items, $_sb_uri, $_sb_item, $_sb_href, $_sb_href_path, $_sb_is_active, $_sb_csrf); ?>
