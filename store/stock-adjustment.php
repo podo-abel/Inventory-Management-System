@@ -42,9 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $pdo->prepare('INSERT INTO stock_movements (product_id, movement_type, quantity, quantity_before, quantity_after, notes, performed_by) VALUES (?,?,?,?,?,?,?)')->execute([$product_id, 'adjustment', $adj_qty, $qty_before, $qty_after, "Adjustment: $notes (was {$qty_before}, now $new_qty)", $uid]);
                     $pdo->commit();
                     log_activity($uid, 'stock_adjustment', "Adjusted {$prod['name']} from {$qty_before} to $new_qty. Reason: $notes", 'product', $product_id);
+                    check_and_notify_low_stock($product_id);
                     flash_message('success', "Stock for {$prod['name']} adjusted to $new_qty.");
                     header('Location: ' . app_base_url() . '/store/inventory.php'); exit;
-                } catch (Exception $e) {
+                }
+            } catch (Exception $e) {
                     $pdo->rollBack();
                     error_log('[GCM] stock_adjustment error: ' . $e->getMessage());
                     $errors[] = 'Failed to process. Please try again.';
@@ -52,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-}
 ?>
 <?php require_once dirname(__DIR__) . '/includes/navbar.php'; ?>
 <div class="app-body">

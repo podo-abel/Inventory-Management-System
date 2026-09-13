@@ -14,13 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { flash_message('error', 'Session expired.'); }
     else {
         $action = $_POST['action'] ?? '';
+        $po_info_stmt = $pdo->prepare("SELECT reference_no, ordered_by FROM purchases WHERE id = ?");
+        $po_info_stmt->execute([$po_id]);
+        $po_info = $po_info_stmt->fetch(PDO::FETCH_ASSOC);
+        $po_ref = $po_info['reference_no'] ?? "PO #$po_id";
+        $ordered_by = (int)($po_info['ordered_by'] ?? 0);
+
         if ($action === 'approve') {
-            $pdo->prepare("UPDATE purchases SET status='approved' WHERE id=? AND status='draft'")->execute([$po_id]);
-            log_activity($uid, 'approve_purchase', "Approved PO #$po_id", 'purchase', $po_id);
+            $pdo->prepare("UPDATE purchases SET status='approved', approved_by=? WHERE id=? AND status='draft'")->execute([$uid, $po_id]);
+            log_activity($uid, 'approve_purchase', "Approved $po_ref", 'purchase', $po_id);
+            send_notification_to_role('finance', 'Purchase Order Approved', "Purchase Order $po_ref has been approved and is ready for payment.", app_base_url() . '/finance/purchases/view.php?id=' . $po_id);
+            if ($ordered_by > 0) {
+                send_notification($ordered_by, 'Purchase Order Approved', "Your purchase order $po_ref has been approved.", app_base_url() . '/finance/purchases/view.php?id=' . $po_id);
+            }
             flash_message('success', 'Purchase order approved.');
         } elseif ($action === 'reject') {
             $pdo->prepare("UPDATE purchases SET status='cancelled' WHERE id=? AND status='draft'")->execute([$po_id]);
-            log_activity($uid, 'reject_purchase', "Rejected PO #$po_id", 'purchase', $po_id);
+            log_activity($uid, 'reject_purchase', "Rejected $po_ref", 'purchase', $po_id);
+            if ($ordered_by > 0) {
+                send_notification($ordered_by, 'Purchase Order Rejected', "Your purchase order $po_ref was rejected by management.", app_base_url() . '/finance/purchases/view.php?id=' . $po_id);
+            }
             flash_message('success', 'Purchase order rejected.');
         }
         header('Location: ' . app_base_url() . '/manager/purchase-view.php?id=' . $po_id); exit;

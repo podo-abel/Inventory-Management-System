@@ -133,3 +133,16 @@ VALUES
     -- Cameras
     (10,'CAM-DSL-001', 'Canon EOS 90D DSLR Camera',          'pcs',    2,  1, 120000.00),
     (10,'CAM-VID-001', 'Sony FX3 Video Camera',              'pcs',    1,  0, 250000.00);
+
+-- -----------------------------------------------------------------------------
+-- NOTIFICATIONS — sample initial alerts
+-- -----------------------------------------------------------------------------
+INSERT INTO `notifications`
+    (`user_id`, `title`, `message`, `link`, `is_read`, `created_at`)
+VALUES
+    (1, 'System Initialized', 'GCM Inventory Management System setup complete.', '/admin/dashboard.php', 0, NOW()),
+    (2, 'Welcome to GCM IMS', 'Operational dashboard ready for approvals and requests review.', '/manager/dashboard.php', 0, NOW()),
+    (3, 'Welcome Jane', 'Submit requisitions anytime using the Request Items portal.', '/employee/request-item.php', 0, NOW()),
+    (4, 'Store Inventory Alert', 'Review stock levels and pending approvals.', '/store/inventory.php', 0, NOW()),
+    (5, 'Finance Setup', 'Financial overview and supplier accounts are active.', '/finance/dashboard.php', 0, NOW());
+

@@ -90,34 +90,45 @@ $_nav_initials = substr($_nav_initials, 0, 2);
 
         <!-- Notifications -->
         <?php
+        $nav_user_id = (int)($_SESSION['user_id'] ?? 0);
+        $nav_unread = get_unread_notifications_count($nav_user_id);
         $nav_pdo = get_db_connection();
         $nav_notifs = $nav_pdo->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5");
-        $nav_notifs->execute([$_SESSION['user_id']]);
-        $nav_notifs = $nav_notifs->fetchAll();
-        $nav_unread = 0;
-        foreach ($nav_notifs as $n) { if (!$n['is_read']) $nav_unread++; }
+        $nav_notifs->execute([$nav_user_id]);
+        $nav_notifs = $nav_notifs->fetchAll(PDO::FETCH_ASSOC);
         ?>
         <div style="position:relative;">
             <button class="navbar__icon-btn" aria-label="Notifications" type="button" onclick="document.getElementById('notif-dropdown').classList.toggle('show');">
                 <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
                 <?php if ($nav_unread > 0): ?>
-                <span class="navbar__notif-dot" aria-hidden="true" style="display:flex; justify-content:center; align-items:center; font-size:10px; font-weight:bold; color:white;"><?= $nav_unread ?></span>
+                <span class="navbar__notif-dot" id="nav-notif-badge" aria-hidden="true" style="display:flex; justify-content:center; align-items:center; font-size:10px; font-weight:bold; color:white;"><?= $nav_unread > 99 ? '99+' : $nav_unread ?></span>
                 <?php endif; ?>
             </button>
-            <div id="notif-dropdown" style="display:none; position:absolute; top:100%; right:0; width:300px; background:white; border:1px solid var(--color-outline-variant); border-radius:var(--radius-md); box-shadow:0 4px 6px rgba(0,0,0,0.1); z-index:1000;">
-                <div style="padding:10px; border-bottom:1px solid var(--color-outline-variant); font-weight:bold;">Notifications</div>
-                <div style="max-height:300px; overflow-y:auto;">
+            <div id="notif-dropdown" style="display:none; position:absolute; top:100%; right:0; width:320px; background:white; border:1px solid var(--color-outline-variant); border-radius:var(--radius-md); box-shadow:0 8px 16px rgba(0,0,0,0.12); z-index:1000;">
+                <div style="padding:12px 16px; border-bottom:1px solid var(--color-outline-variant); display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:700; font-size:14px; color:var(--color-on-surface);">Notifications <?php if ($nav_unread > 0): ?><span class="badge badge--error" style="font-size:10px; margin-left:4px;"><?= $nav_unread ?></span><?php endif; ?></div>
+                    <?php if ($nav_unread > 0): ?>
+                    <button type="button" onclick="markAllNotifsRead()" style="background:none; border:none; font-size:11px; color:var(--color-primary); cursor:pointer; font-weight:600; padding:0;">Mark all read</button>
+                    <?php endif; ?>
+                </div>
+                <div id="notif-dropdown-list" style="max-height:300px; overflow-y:auto;">
                     <?php if (empty($nav_notifs)): ?>
-                        <div style="padding:15px; text-align:center; color:var(--color-text-secondary);">No recent notifications.</div>
+                        <div style="padding:24px 16px; text-align:center; color:var(--color-text-secondary); font-size:13px;">No notifications.</div>
                     <?php else: ?>
                         <?php foreach ($nav_notifs as $n): ?>
-                        <a href="<?= $n['link'] ? e($n['link']) : '#' ?>" style="display:block; padding:10px; border-bottom:1px solid var(--color-outline-variant); text-decoration:none; background:<?= $n['is_read'] ? 'white' : '#f0fdf4' ?>;">
-                            <div style="font-size:13px; font-weight:bold; color:var(--color-on-surface);"><?= e($n['title']) ?></div>
-                            <div style="font-size:12px; color:var(--color-on-surface-variant); margin-top:4px;"><?= e($n['message']) ?></div>
+                        <a href="<?= e(app_base_url()) ?>/notifications.php?open=<?= (int)$n['id'] ?>" style="display:block; padding:10px 14px; border-bottom:1px solid var(--color-outline-variant); text-decoration:none; background:<?= $n['is_read'] ? 'white' : '#f0f7ff' ?>;">
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2px;">
+                                <strong style="font-size:13px; color:var(--color-on-surface);"><?= e($n['title']) ?></strong>
+                                <?php if (!$n['is_read']): ?><span style="width:7px; height:7px; border-radius:50%; background:var(--color-primary); display:inline-block;"></span><?php endif; ?>
+                            </div>
+                            <div style="font-size:12px; color:var(--color-on-surface-variant); line-height:1.3; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;"><?= e($n['message']) ?></div>
                             <div style="font-size:10px; color:var(--color-text-secondary); margin-top:4px;"><?= e(format_datetime($n['created_at'])) ?></div>
                         </a>
                         <?php endforeach; ?>
                     <?php endif; ?>
+                </div>
+                <div style="padding:10px; text-align:center; border-top:1px solid var(--color-outline-variant); background:var(--color-surface-container-lowest, #fafafa); border-radius:0 0 var(--radius-md) var(--radius-md);">
+                    <a href="<?= e(app_base_url()) ?>/notifications.php" style="font-size:12px; font-weight:600; color:var(--color-primary); text-decoration:none;">View All Notifications →</a>
                 </div>
             </div>
         </div>
@@ -128,6 +139,25 @@ $_nav_initials = substr($_nav_initials, 0, 2);
                 if (drop) drop.classList.remove('show');
             }
         });
+        function markAllNotifsRead() {
+            fetch('<?= e(app_base_url()) ?>/api/notifications.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=mark_all_read'
+            }).then(r => r.json()).then(data => {
+                if (data.success) {
+                    const badge = document.getElementById('nav-notif-badge');
+                    if (badge) badge.remove();
+                    const list = document.getElementById('notif-dropdown-list');
+                    if (list) {
+                        const items = list.querySelectorAll('a');
+                        items.forEach(el => el.style.background = 'white');
+                        const dots = list.querySelectorAll('span[style*="border-radius:50%"]');
+                        dots.forEach(d => d.remove());
+                    }
+                }
+            }).catch(console.error);
+        }
         </script>
         <style>#notif-dropdown.show { display:block !important; }</style>
 

@@ -28,12 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['cancel']) && $req['status'] === 'pending') {
         $pdo->prepare("UPDATE requests SET status = 'cancelled' WHERE id = ? AND user_id = ? AND status = 'pending'")->execute([$req_id, $uid]);
         log_activity($uid, 'cancel_request', "Cancelled request {$req['reference_no']}.", 'request', $req_id);
+        send_notification_to_role('manager', 'Request Cancelled', "Employee {$_SESSION['full_name']} cancelled pending request {$req['reference_no']}.", app_base_url() . '/manager/requests.php');
         flash_message('success', 'Request cancelled.');
         header('Location: ' . app_base_url() . '/employee/requests.php');
         exit;
     } elseif (isset($_POST['complete']) && $req['status'] === 'issued') {
         $pdo->prepare("UPDATE requests SET status = 'completed' WHERE id = ? AND user_id = ? AND status = 'issued'")->execute([$req_id, $uid]);
         log_activity($uid, 'complete_request', "Confirmed receipt of request {$req['reference_no']}.", 'request', $req_id);
+        send_notification_to_role('store', 'Request Completed', "Employee {$_SESSION['full_name']} confirmed receipt of request {$req['reference_no']}.", app_base_url() . '/store/requests/view.php?id=' . $req_id);
         flash_message('success', 'Request marked as completed. Thank you!');
         header('Location: ' . app_base_url() . '/employee/dashboard.php');
         exit;

@@ -32,6 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare('INSERT INTO payments (purchase_id, reference_no, amount, payment_method, status, payment_date, notes, recorded_by) VALUES (?,?,?,?,?,?,?,?)')->execute([$purchase_id, $ref_no ?: null, $amount, $method, 'completed', $payment_date, $notes ?: null, $uid]);
             $pay_id = (int)$pdo->lastInsertId();
             log_activity($uid, 'record_payment', "Recorded payment of " . format_currency($amount) . " for PO #$purchase_id.", 'payment', $pay_id);
+            
+            $po_info_stmt = $pdo->prepare("SELECT reference_no FROM purchases WHERE id = ?");
+            $po_info_stmt->execute([$purchase_id]);
+            $po_ref = $po_info_stmt->fetchColumn() ?: "PO #$purchase_id";
+            send_notification_to_role('manager', 'Payment Recorded', "Payment of " . format_currency($amount) . " recorded for $po_ref.", app_base_url() . '/finance/purchases/view.php?id=' . $purchase_id);
+            send_notification_to_role('store', 'Payment Processed for PO', "Payment recorded for $po_ref. Incoming stock can be received upon arrival.", app_base_url() . '/store/receive-stock.php');
+
             flash_message('success', 'Payment recorded successfully.');
             header('Location: ' . app_base_url() . '/finance/purchases/view.php?id=' . $purchase_id); exit;
         }

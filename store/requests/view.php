@@ -55,6 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $req['status'] === 'approved') {
                 $pdo->prepare("UPDATE requests SET status = 'issued', issued_by = ?, issued_at = NOW() WHERE id = ?")->execute([$uid, $req_id]);
                 $pdo->commit();
 
+                // Trigger low stock notifications for issued products if needed
+                foreach ($items as $item) {
+                    $issue_qty = (int)($qty_issue[$item['id']] ?? 0);
+                    if ($issue_qty > 0) {
+                        check_and_notify_low_stock($item['product_id']);
+                    }
+                }
+
                 log_activity($uid, 'issue_request', "Issued stock for request {$req['reference_no']}.", 'request', $req_id);
                 
                 // Check if any items were partially fulfilled

@@ -291,3 +291,73 @@ function send_notification_to_role($role, $title, $message, $link = null) {
         return false;
     }
 }
+
+/**
+ * Get total unread notifications count for a user
+ */
+function get_unread_notifications_count($user_id): int {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0');
+        $stmt->execute([$user_id]);
+        return (int)$stmt->fetchColumn();
+    } catch (Exception $e) {
+        return 0;
+    }
+}
+
+/**
+ * Mark a single notification as read for a user
+ */
+function mark_notification_read($notification_id, $user_id): bool {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?');
+        return $stmt->execute([$notification_id, $user_id]);
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+/**
+ * Mark all notifications as read for a user
+ */
+function mark_all_notifications_read($user_id): bool {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read = 0');
+        return $stmt->execute([$user_id]);
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+/**
+ * Check product inventory level and trigger low stock notifications if needed
+ */
+function check_and_notify_low_stock($product_id) {
+    try {
+        global $pdo;
+        $db = isset($pdo) ? $pdo : get_db_connection();
+        $stmt = $db->prepare('SELECT id, name, sku, quantity_in_stock, min_stock_level FROM products WHERE id = ? AND is_active = 1');
+        $stmt->execute([$product_id]);
+        $prod = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($prod && (int)$prod['quantity_in_stock'] <= (int)$prod['min_stock_level']) {
+            $is_out = ((int)$prod['quantity_in_stock'] <= 0);
+            $title = $is_out ? "Out of Stock: {$prod['name']}" : "Low Stock Alert: {$prod['name']}";
+            $msg = $is_out 
+                ? "Product {$prod['name']} ({$prod['sku']}) is completely out of stock!" 
+                : "Product {$prod['name']} ({$prod['sku']}) stock is low ({$prod['quantity_in_stock']} remaining, min level: {$prod['min_stock_level']}).";
+            $store_link = app_base_url() . '/store/inventory.php';
+            $mgr_link   = app_base_url() . '/manager/inventory.php';
+            send_notification_to_role('store', $title, $msg, $store_link);
+            send_notification_to_role('manager', $title, $msg, $mgr_link);
+        }
+    } catch (Exception $e) {
+        error_log('[GCM] check_and_notify_low_stock failed: ' . $e->getMessage());
+    }
+}
+

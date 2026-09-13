@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pname = '';
                 foreach ($products as $p) { if ((int)$p['id'] === $product_id) { $pname = $p['name']; break; } }
                 log_activity($uid, 'receive_stock', "Received $quantity unit(s) of $pname.", 'product', $product_id);
+                send_notification_to_role('manager', 'Stock Received', "Store received $quantity unit(s) of $pname into inventory.", app_base_url() . '/manager/inventory.php');
                 flash_message('success', "Received $quantity unit(s) of $pname successfully.");
                 header('Location: ' . app_base_url() . '/store/inventory.php'); exit;
             } catch (Exception $e) {

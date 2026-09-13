@@ -31,10 +31,13 @@ $activity_stmt->execute([$emp_id]);
 $activities = $activity_stmt->fetchAll();
 
 // Get summary stats
+$s_req = $pdo->prepare("SELECT COUNT(*) FROM requests WHERE user_id = ?"); $s_req->execute([$emp_id]);
+$s_pur = $pdo->prepare("SELECT COUNT(*) FROM purchases WHERE ordered_by = ?"); $s_pur->execute([$emp_id]);
+$s_mov = $pdo->prepare("SELECT COUNT(*) FROM stock_movements WHERE performed_by = ?"); $s_mov->execute([$emp_id]);
 $stats = [
-    'requests' => $pdo->query("SELECT COUNT(*) FROM requests WHERE user_id = {$emp_id}")->fetchColumn(),
-    'purchases' => $pdo->query("SELECT COUNT(*) FROM purchases WHERE ordered_by = {$emp_id}")->fetchColumn(),
-    'movements' => $pdo->query("SELECT COUNT(*) FROM stock_movements WHERE performed_by = {$emp_id}")->fetchColumn()
+    'requests' => (int)$s_req->fetchColumn(),
+    'purchases' => (int)$s_pur->fetchColumn(),
+    'movements' => (int)$s_mov->fetchColumn()
 ];
 
 ?>

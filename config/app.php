@@ -61,10 +61,10 @@ function role_dashboard_url(string $role): string
 }
 
 // ── Currency ───────────────────────────────────────────────────────────────
-define('CURRENCY_SYMBOL', 'ETB ');
+if (!defined('CURRENCY_SYMBOL')) define('CURRENCY_SYMBOL', 'ETB ');
 
 // ── Pagination ─────────────────────────────────────────────────────────────
-define('ITEMS_PER_PAGE', 15);
+if (!defined('ITEMS_PER_PAGE')) define('ITEMS_PER_PAGE', 15);
 
 // ── Error reporting ────────────────────────────────────────────────────────
 if (APP_ENV === 'development') {

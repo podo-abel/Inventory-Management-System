@@ -142,6 +142,7 @@ function get_nav_items(string $role): array
                 ['label' => 'Issue Stock',     'icon' => 'outbox',          'href' => $base . '/store/issue-stock.php'],
                 ['label' => 'Inventory',       'icon' => 'inventory_2',     'href' => $base . '/store/inventory.php'],
                 ['label' => 'Stock Movements', 'icon' => 'swap_vert',       'href' => $base . '/store/stock-movements.php'],
+                ['label' => 'Reports',         'icon' => 'bar_chart',       'href' => $base . '/store/reports.php'],
             ];
 
         case 'finance':

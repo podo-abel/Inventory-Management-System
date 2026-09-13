@@ -54,6 +54,7 @@ $_ims_page_title = isset($page_title) ? e($page_title) . ' — ' . APP_NAME : AP
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/components.css">
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/layout.css">
     <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/responsive.css">
+    <link rel="stylesheet" href="<?= app_base_url() ?>/assets/css/reports.css">
 </head>
 <body>
 <div class="app-shell">

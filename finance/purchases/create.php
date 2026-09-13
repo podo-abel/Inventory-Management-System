@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 $pdo->commit();
                 log_activity($uid, 'create_purchase', "Created PO $ref_no for supplier #$supplier_id.", 'purchase', $po_id);
+                send_notification_to_role('manager', 'New Purchase Order Created', "Purchase Order $ref_no has been created and requires review.", app_base_url() . '/manager/purchase-view.php?id=' . $po_id);
                 flash_message('success', "Purchase Order $ref_no created.");
                 header('Location: ' . app_base_url() . '/finance/purchases/view.php?id=' . $po_id); exit;
             } catch (Exception $e) {
