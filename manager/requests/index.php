@@ -33,7 +33,7 @@ $list_stmt = $pdo->prepare(
      LEFT JOIN request_items ri ON ri.request_id = r.id
      $wsql
      GROUP BY r.id
-     ORDER BY FIELD(r.status,'pending','approved','processing','issued','completed','rejected','cancelled'), r.created_at DESC
+     ORDER BY FIELD(r.status,'pending','store_approved','approved','processing','issued','completed','rejected','cancelled'), r.created_at DESC
      LIMIT :lim OFFSET :off"
 );
 if ($status !== '') $list_stmt->bindValue(':st', $status, PDO::PARAM_STR);
@@ -42,13 +42,13 @@ $list_stmt->bindValue(':off', $pg['offset'], PDO::PARAM_INT);
 $list_stmt->execute();
 $requests = $list_stmt->fetchAll();
 
-$statuses = ['pending','approved','rejected','processing','issued','completed','cancelled'];
+$statuses = ['pending','store_approved','approved','rejected','processing','issued','completed','cancelled'];
 ?>
 <?php require_once dirname(__DIR__, 2) . '/includes/navbar.php'; ?>
 <div class="app-body">
 <?php require_once dirname(__DIR__, 2) . '/includes/sidebar.php'; ?>
 <main class="main-content">
-<div class="page-header"><h1 class="page-header__title">Employee Requests</h1><p class="page-header__subtitle">Review and approve inventory requests.</p></div>
+<div class="page-header"><h1 class="page-header__title">Employee Requests</h1><p class="page-header__subtitle">Monitor employee inventory requests.</p></div>
 <?php require_once dirname(__DIR__, 2) . '/includes/alerts.php'; ?>
 <div class="content-card">
     <div class="content-card__header">
@@ -60,7 +60,7 @@ $statuses = ['pending','approved','rejected','processing','issued','completed','
             <select class="form-input" name="status" style="width:auto;" onchange="this.form.submit()">
                 <option value="">All</option>
                 <?php foreach ($statuses as $s): ?>
-                <option value="<?= e($s) ?>" <?= $status === $s ? 'selected' : '' ?>><?= e(ucfirst($s)) ?></option>
+                <option value="<?= e($s) ?>" <?= $status === $s ? 'selected' : '' ?>><?= e(ucwords(str_replace('_', ' ', $s))) ?></option>
                 <?php endforeach; ?>
             </select>
             <?php if ($status): ?><a href="?" class="btn btn--secondary">Clear</a><?php endif; ?>
@@ -76,8 +76,8 @@ $statuses = ['pending','approved','rejected','processing','issued','completed','
                 <td><?= e($req['employee_name']) ?></td>
                 <td><?= e(format_date($req['created_at'])) ?></td>
                 <td><?= e($req['item_count']) ?></td>
-                <td><span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucfirst($req['status'])) ?></span></td>
-                <td><a href="<?= e(app_base_url()) ?>/manager/requests/view.php?id=<?= (int)$req['id'] ?>" class="btn btn--secondary" style="padding:.25rem .75rem;font-size:.8rem;">View</a></td>
+                <td><span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucwords(str_replace('_', ' ', $req['status']))) ?></span></td>
+                <td><a href="<?= e(app_base_url()) ?>/manager/requests/view.php?id=<?= (int)$req['id'] ?>" class="btn <?= $req['status']==='store_approved'?'btn--primary':'btn--secondary' ?>" style="padding:.25rem .75rem;font-size:.8rem;"><?= $req['status']==='store_approved'?'Review':'View' ?></a></td>
             </tr>
             <?php endforeach; ?>
             <?php if (empty($requests)): ?><tr><td colspan="6" style="text-align:center;color:var(--color-text-secondary);">No requests found.</td></tr><?php endif; ?>

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['cancel']) && $req['status'] === 'pending') {
         $pdo->prepare("UPDATE requests SET status = 'cancelled' WHERE id = ? AND user_id = ? AND status = 'pending'")->execute([$req_id, $uid]);
         log_activity($uid, 'cancel_request', "Cancelled request {$req['reference_no']}.", 'request', $req_id);
-        send_notification_to_role('manager', 'Request Cancelled', "Employee {$_SESSION['full_name']} cancelled pending request {$req['reference_no']}.", app_base_url() . '/manager/requests.php');
+        send_notification_to_role('store', 'Request Cancelled', "Employee {$_SESSION['full_name']} cancelled pending request {$req['reference_no']}.", app_base_url() . '/store/requests.php');
         flash_message('success', 'Request cancelled.');
         header('Location: ' . app_base_url() . '/employee/requests.php');
         exit;
@@ -68,7 +68,7 @@ $items = $items_stmt->fetchAll();
     <div class="content-card">
         <div class="content-card__header"><h2 class="content-card__title">Status</h2></div>
         <div class="content-card__body">
-            <p><strong>Current Status:</strong> <span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucfirst($req['status'])) ?></span></p>
+            <p><strong>Current Status:</strong> <span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucwords(str_replace('_', ' ', $req['status']))) ?></span></p>
             <?php if ($req['reviewer_name']): ?>
             <p><strong>Reviewed by:</strong> <?= e($req['reviewer_name']) ?> on <?= e(format_datetime($req['reviewed_at'])) ?></p>
             <?php endif; ?>

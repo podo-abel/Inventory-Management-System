@@ -179,6 +179,7 @@ function get_status_badge_class(string $status): string
 {
     $map = [
         'pending'    => 'badge--warning',
+        'store_approved' => 'badge--info',
         'approved'   => 'badge--success',
         'rejected'   => 'badge--danger',
         'cancelled'  => 'badge--neutral',

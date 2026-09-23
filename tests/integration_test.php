@@ -77,15 +77,17 @@ it("Can create a test user with hashed password", function() use ($pdo) {
 it("Enforces role permission matrix (can_user)", function() {
     return can_user('admin', 'manage_users') === true
         && can_user('employee', 'manage_users') === false
-        && can_user('manager', 'approve_requests') === true
+        && can_user('manager', 'approve_requests') === false
+        && can_user('store', 'approve_requests') === true
+        && can_user('store', 'reject_requests') === true
         && can_user('store', 'manage_stock') === true
         && can_user('finance', 'manage_payments') === true;
 });
 
 // -----------------------------------------------------------------------------
-// WORKFLOW 2: Employee Request -> Manager Approval -> Store Issue -> Completion
+// WORKFLOW 2: Employee Request -> Store Approval -> Store Issue -> Completion
 // -----------------------------------------------------------------------------
-echo "\n2. Employee Request -> Approval -> Stock Issue -> Confirm Receipt\n";
+echo "\n2. Employee Request -> Store Approval -> Stock Issue -> Confirm Receipt\n";
 
 it("Full Request Lifecycle with Stock Decrement & Traceability", function() use ($pdo) {
     // 1. Get test employee and an active product
@@ -107,15 +109,14 @@ it("Full Request Lifecycle with Stock Decrement & Traceability", function() use 
     $req_status = $pdo->query("SELECT status FROM requests WHERE id = $req_id")->fetchColumn();
     if ($req_status !== 'pending') return false;
 
-    // 3. Manager Reviews & Approves
-    $mgr_id = (int)$pdo->query("SELECT id FROM users WHERE role='manager' AND is_active=1 LIMIT 1")->fetchColumn();
-    $pdo->prepare("UPDATE requests SET status='approved', reviewed_by=?, reviewed_at=NOW() WHERE id=?")->execute([$mgr_id, $req_id]);
+    // 3. Store Reviews & Approves
+    $store_id = (int)$pdo->query("SELECT id FROM users WHERE role='store' AND is_active=1 LIMIT 1")->fetchColumn();
+    $pdo->prepare("UPDATE requests SET status='approved', reviewed_by=?, reviewed_at=NOW() WHERE id=?")->execute([$store_id, $req_id]);
 
     $req_status = $pdo->query("SELECT status FROM requests WHERE id = $req_id")->fetchColumn();
     if ($req_status !== 'approved') return false;
 
-    // 4. Store Issues Stock
-    $store_id = (int)$pdo->query("SELECT id FROM users WHERE role='store' AND is_active=1 LIMIT 1")->fetchColumn();
+    // 4. Store Issues Stock (same store user)
     $pdo->beginTransaction();
     $qty_before = (int)$pdo->query("SELECT quantity_in_stock FROM products WHERE id = $prod_id FOR UPDATE")->fetchColumn();
     $issue_qty = 2;
@@ -150,17 +151,17 @@ it("Full Request Lifecycle with Stock Decrement & Traceability", function() use 
 // -----------------------------------------------------------------------------
 echo "\n3. Request Rejection Workflow\n";
 
-it("Manager rejection properly records reason and updates status", function() use ($pdo) {
+it("Store rejection properly records reason and updates status", function() use ($pdo) {
     $emp_id = (int)$pdo->query("SELECT id FROM users WHERE role='employee' AND is_active=1 LIMIT 1")->fetchColumn();
     $ref_no = 'REQ-REJ-' . strtoupper(bin2hex(random_bytes(3)));
 
     $pdo->prepare("INSERT INTO requests (user_id, reference_no, status, notes) VALUES (?, ?, 'pending', 'Test Rejection')")->execute([$emp_id, $ref_no]);
     $req_id = (int)$pdo->lastInsertId();
 
-    $mgr_id = (int)$pdo->query("SELECT id FROM users WHERE role='manager' AND is_active=1 LIMIT 1")->fetchColumn();
-    $reason = 'Item not available in department quota';
+    $store_id = (int)$pdo->query("SELECT id FROM users WHERE role='store' AND is_active=1 LIMIT 1")->fetchColumn();
+    $reason = 'Item not available in stock';
 
-    $pdo->prepare("UPDATE requests SET status='rejected', rejection_reason=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?")->execute([$reason, $mgr_id, $req_id]);
+    $pdo->prepare("UPDATE requests SET status='rejected', rejection_reason=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?")->execute([$reason, $store_id, $req_id]);
 
     $check = $pdo->prepare("SELECT status, rejection_reason FROM requests WHERE id=?");
     $check->execute([$req_id]);

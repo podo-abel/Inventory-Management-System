@@ -160,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `requests` (
     `reference_no`   VARCHAR(30)  NOT NULL  COMMENT 'Human-readable reference e.g. REQ-2026-001',
     `status`         ENUM(
                          'pending',
+                         'store_approved',
                          'approved',
                          'rejected',
                          'processing',

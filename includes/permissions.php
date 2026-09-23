@@ -40,8 +40,6 @@ const PERMISSIONS = [
     'manager' => [
         'manage_employees',
         'view_inventory',
-        'approve_requests',
-        'reject_requests',
         'view_requests',
         'view_purchases',
         'view_reports',
@@ -53,6 +51,8 @@ const PERMISSIONS = [
         'view_products',
     ],
     'store' => [
+        'approve_requests',
+        'reject_requests',
         'process_requests',
         'manage_stock',
         'view_inventory',
@@ -137,7 +137,7 @@ function get_nav_items(string $role): array
         case 'store':
             return [
                 ['label' => 'Dashboard',       'icon' => 'dashboard',       'href' => $base . '/store/dashboard.php'],
-                ['label' => 'Pending Requests','icon' => 'pending_actions', 'href' => $base . '/store/requests.php'],
+                ['label' => 'Requests',         'icon' => 'assignment',       'href' => $base . '/store/requests.php'],
                 ['label' => 'Receive Stock',   'icon' => 'move_to_inbox',   'href' => $base . '/store/receive-stock.php'],
                 ['label' => 'Issue Stock',     'icon' => 'outbox',          'href' => $base . '/store/issue-stock.php'],
                 ['label' => 'Inventory',       'icon' => 'inventory_2',     'href' => $base . '/store/inventory.php'],

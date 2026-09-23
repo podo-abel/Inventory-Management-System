@@ -521,3 +521,93 @@ Recent Milestones Completed:
 - **Phase 15 (Finalization)**: Cleaned all debug output, verified zero PHP syntax errors across all application files, updated database schema and seed dataset with sample notifications and Ethiopian Birr configuration, verified responsive design and BEM UI consistency with the Stitch design system.
 
 The application is completely implemented, verified, and ready for deployment and presentation.
+
+---
+
+# 6. Post-Completion Modifications
+
+## Workflow Change: Approval Transferred from Manager to Store
+
+**Date:** 2026-09-20
+
+**Change:** Employee request approval/rejection responsibility moved from Manager role to Store role.
+
+### New Workflow
+```
+Employee submits request → Store reviews (checks stock availability) → Store approves/rejects → Store issues stock → Employee confirms receipt
+```
+
+### Rationale
+Manager no longer needs to approve inventory requests. Store handles the full request lifecycle since they have direct knowledge of stock availability.
+
+### Files Modified
+- `includes/permissions.php` — Moved `approve_requests` and `reject_requests` from manager to store; updated store nav label to "Requests"
+- `employee/request-item.php` — Notifications sent to store instead of manager on request submission
+- `employee/requests/view.php` — Cancellation notifications sent to store instead of manager
+- `store/requests.php` — Added `pending` and `rejected` to status filter tabs; defaults to pending view
+- `store/requests/view.php` — Complete rewrite: now handles approval/rejection for pending requests with stock availability reporting ("In Stock", "Insufficient", "No Item"), plus existing issuance for approved requests
+- `store/dashboard.php` — Added "Pending Review" stat card and pending requests table alongside approved requests
+- `manager/requests/view.php` — Made completely read-only (removed approve/reject forms)
+- `manager/requests/index.php` — Updated subtitle to "Monitor employee inventory requests"
+- `manager/dashboard.php` — Changed from "Pending Requests" to "Recent Requests" with view-only access
+- `tests/integration_test.php` — Updated permission assertions, workflow comments, and test steps to use store role for approval/rejection
+
+### Tests Performed
+- Integration test suite: 9/9 passed
+- PHP syntax check: all modified files clean
+- Permission matrix verified: `can_user('store', 'approve_requests') === true`, `can_user('manager', 'approve_requests') === false`
+
+### Store Availability Reporting
+When reviewing pending requests, Store now sees:
+- **Green "In Stock"** badge — sufficient stock available
+- **Orange "Insufficient"** badge — partial stock available (shows available quantity)
+- **Red "No Item"** badge — product is out of stock
+- Summary banner at top: "All Items Available" / "Partial Availability" / "No Items Available"
+
+---
+
+## Employee Low Stock Notification on Request Submission
+
+**Date:** 2026-09-20
+
+**Change:** Employees now receive immediate low stock warnings when requesting more items than available in inventory.
+
+### What Was Added
+
+1. **Live client-side warning** — As the employee selects a product and enters a quantity, a warning banner instantly appears if the quantity exceeds available stock:
+   - **Orange warning** for low stock: "Only X available, you requested Y"
+   - **Red warning** for out of stock: "This item is currently unavailable"
+
+2. **Per-item badge in batch list** — Each item added to the request batch shows an inline stock warning if it exceeds availability.
+
+3. **Server-side notification** — After the request is submitted, the system checks each item against current stock. If any exceed availability, an in-app "Low Stock Warning" notification is sent to the employee listing all affected items.
+
+### Files Modified
+- `employee/request-item.php` — Added live JS stock check, HTML warning element, and server-side notification after submit
+
+### Tests Performed
+- Integration test suite: 9/9 passed
+- PHP syntax check: clean
+
+
+
+## Workflow Change: Manager Confirmation Required Before Store Issuance
+
+**Date:** 2026-09-23
+
+**Change:** Modified the request workflow so that after the store reviews and verifies a request, the manager must confirm it before the store can issue the items.
+
+### New Workflow
+```
+Employee submits request -> Store verifies (status: store_approved) -> Manager confirms (status: approved) or rejects (status: rejected) -> Store issues stock (status: issued) -> Employee confirms receipt (status: completed)
+```
+
+### Files Modified
+- `database/schema.sql` — Added `store_approved` to requests status ENUM.
+- `store/requests/view.php` — Changed 'approve' action to update status to `store_approved` and notify managers for confirmation.
+- `store/requests.php` — Added `store_approved` to status filter tabs ("Store Approved").
+- `manager/requests/view.php` — Added confirm/reject forms for managers to process `store_approved` requests.
+- `manager/requests/index.php` — Added `store_approved` to status filters and changed "View" button to "Review" for requests needing confirmation.
+- `manager/dashboard.php` — Changed "Pending Requests" card to "Awaiting Confirmation" counting `store_approved` requests.
+- `employee/dashboard.php` & `employee/requests.php` — Included `store_approved` status in queries.
+- `includes/functions.php` — Added `store_approved` to `get_status_badge_class()` mapping.

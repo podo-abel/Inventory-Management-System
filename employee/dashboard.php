@@ -11,7 +11,7 @@ $pdo = get_db_connection();
 
 $s = $pdo->prepare('SELECT COUNT(*) FROM requests WHERE user_id = ?'); $s->execute([$uid]); $total_requests = (int)$s->fetchColumn();
 $s = $pdo->prepare("SELECT COUNT(*) FROM requests WHERE user_id = ? AND status = 'pending'"); $s->execute([$uid]); $pending_count = (int)$s->fetchColumn();
-$s = $pdo->prepare("SELECT COUNT(*) FROM requests WHERE user_id = ? AND status IN ('approved','processing','issued')"); $s->execute([$uid]); $approved_count = (int)$s->fetchColumn();
+$s = $pdo->prepare("SELECT COUNT(*) FROM requests WHERE user_id = ? AND status IN ('store_approved','approved','processing','issued')"); $s->execute([$uid]); $approved_count = (int)$s->fetchColumn();
 $s = $pdo->prepare("SELECT COUNT(*) FROM requests WHERE user_id = ? AND status = 'completed'"); $s->execute([$uid]); $completed_count = (int)$s->fetchColumn();
 
 $recent_stmt = $pdo->prepare('SELECT r.id, r.reference_no, r.status, r.created_at, COUNT(ri.id) AS item_count FROM requests r LEFT JOIN request_items ri ON ri.request_id = r.id WHERE r.user_id = ? GROUP BY r.id ORDER BY r.created_at DESC LIMIT 5');
@@ -50,7 +50,7 @@ $recent_requests = $recent_stmt->fetchAll();
                 <td><code><?= e($req['reference_no']) ?></code></td>
                 <td><?= e(format_date($req['created_at'])) ?></td>
                 <td><?= e($req['item_count']) ?> item(s)</td>
-                <td><span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucfirst($req['status'])) ?></span></td>
+                <td><span class="badge <?= e(get_status_badge_class($req['status'])) ?>"><?= e(ucwords(str_replace('_', ' ', $req['status']))) ?></span></td>
                 <td><a href="<?= e(app_base_url()) ?>/employee/requests/view.php?id=<?= (int)$req['id'] ?>" class="btn btn--secondary" style="padding:.25rem .75rem;font-size:.8rem;">View</a></td>
             </tr>
             <?php endforeach; ?>

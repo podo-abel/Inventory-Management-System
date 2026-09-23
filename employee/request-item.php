@@ -69,7 +69,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->commit();
 
                 log_activity($uid, 'submit_request', "Submitted request $ref_no with " . count($items) . " item(s).", 'request', $req_id);
-                send_notification_to_role('manager', 'New Request Submitted', "Request $ref_no has been submitted and is pending your review.", app_base_url() . '/manager/requests/view.php?id=' . $req_id);
+                send_notification_to_role('store', 'New Request Submitted', "Request $ref_no has been submitted and is pending your review.", app_base_url() . '/store/requests/view.php?id=' . $req_id);
+                
+                // Check stock levels and notify employee about low/out-of-stock items
+                $low_stock_items = [];
+                foreach ($items as $item) {
+                    $stock_check = $pdo->prepare('SELECT name, quantity_in_stock FROM products WHERE id = ?');
+                    $stock_check->execute([$item['product_id']]);
+                    $prod_info = $stock_check->fetch(PDO::FETCH_ASSOC);
+                    if ($prod_info && (int)$prod_info['quantity_in_stock'] < $item['quantity']) {
+                        $stock_qty = (int)$prod_info['quantity_in_stock'];
+                        if ($stock_qty <= 0) {
+                            $low_stock_items[] = "{$prod_info['name']} (Out of Stock)";
+                        } else {
+                            $low_stock_items[] = "{$prod_info['name']} (only {$stock_qty} available, you requested {$item['quantity']})";
+                        }
+                    }
+                }
+                if (!empty($low_stock_items)) {
+                    $item_list = implode(', ', $low_stock_items);
+                    send_notification(
+                        $uid,
+                        'Low Stock Warning',
+                        "Your request $ref_no includes items with insufficient stock: $item_list. The store will review availability.",
+                        app_base_url() . '/employee/requests/view.php?id=' . $req_id
+                    );
+                }
                 
                 flash_message('success', "Request $ref_no submitted successfully.");
                 header('Location: ' . app_base_url() . '/employee/requests.php');
@@ -90,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="page-header page-header--flex" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:var(--space-6);">
     <div>
         <h1 class="text-display color-primary" style="margin-bottom:var(--space-1); letter-spacing:-0.02em; font-weight:700;">Request New Item</h1>
-        <p class="text-body-lg color-on-surface-var" style="margin:0;">Select items and submit your request batch for manager approval.</p>
+        <p class="text-body-lg color-on-surface-var" style="margin:0;">Select items and submit your request batch for store review.</p>
     </div>
 </div>
 <?php require_once dirname(__DIR__) . '/includes/alerts.php'; ?>
@@ -134,6 +159,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="form-label">Item Purpose / Notes</label>
                         <input type="text" class="form-input" id="item-note" placeholder="Optional context..." style="padding:10px;">
                     </div>
+                </div>
+
+                <!-- Live stock warning shown when quantity exceeds available stock -->
+                <div id="stock-warning" style="display:none; margin-bottom:var(--space-4); padding:10px 14px; border-radius:var(--radius-md); border-left:4px solid #ea580c; background:#fff7ed; color:#9a3412; font-size:var(--text-body-sm-size); display:none; align-items:center; gap:8px;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">warning</span>
+                    <span id="stock-warning-text"></span>
                 </div>
 
                 <div style="display:flex; justify-content:flex-end;">
@@ -192,6 +223,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const batchCountSpan = document.getElementById('batch-count');
     
     let itemCount = 0;
+    
+    const stockWarningDiv = document.getElementById('stock-warning');
+    const stockWarningText = document.getElementById('stock-warning-text');
+    
+    // Live stock check — shows warning as soon as qty exceeds available stock
+    function checkStockWarning() {
+        if (!productSelect.value) {
+            stockWarningDiv.style.display = 'none';
+            return;
+        }
+        const opt = productSelect.options[productSelect.selectedIndex];
+        const stock = parseInt(opt.getAttribute('data-stock') || '0', 10);
+        const qty = parseInt(qtyInput.value, 10) || 0;
+        
+        if (qty > stock && stock <= 0) {
+            stockWarningText.innerHTML = '<strong>Out of Stock!</strong> This item is currently unavailable in the store (0 in stock).';
+            stockWarningDiv.style.display = 'flex';
+            stockWarningDiv.style.background = '#fee2e2';
+            stockWarningDiv.style.color = '#991b1b';
+            stockWarningDiv.style.borderLeftColor = '#dc2626';
+        } else if (qty > stock) {
+            stockWarningText.innerHTML = '<strong>Low Stock!</strong> Only <strong>' + stock + '</strong> available in store, but you are requesting <strong>' + qty + '</strong>. Your request may be partially fulfilled or rejected.';
+            stockWarningDiv.style.display = 'flex';
+            stockWarningDiv.style.background = '#fff7ed';
+            stockWarningDiv.style.color = '#9a3412';
+            stockWarningDiv.style.borderLeftColor = '#ea580c';
+        } else {
+            stockWarningDiv.style.display = 'none';
+        }
+    }
+    
+    productSelect.addEventListener('change', checkStockWarning);
+    qtyInput.addEventListener('input', checkStockWarning);
 
     // Handle initial items if post validation failed (prefill)
     <?php
@@ -222,7 +286,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const pid = productSelect.value;
         const opt = productSelect.options[productSelect.selectedIndex];
         const pName = opt.getAttribute('data-name');
-        const qty = qtyInput.value;
+        const stock = parseInt(opt.getAttribute('data-stock') || '0', 10);
+        const qty = parseInt(qtyInput.value, 10);
         const note = noteInput.value;
         
         // Remove empty state if present
@@ -230,6 +295,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         itemCount++;
         batchCountSpan.textContent = itemCount + ' Item' + (itemCount !== 1 ? 's' : '');
+        
+        // Determine stock warning
+        let stockWarning = '';
+        if (qty > stock && stock <= 0) {
+            stockWarning = `
+                <div style="margin-top:6px; padding:6px 10px; background:#fee2e2; border-radius:4px; border-left:3px solid #dc2626; display:flex; align-items:center; gap:6px; font-size:12px; color:#991b1b;">
+                    <span class="material-symbols-outlined" style="font-size:14px;">block</span>
+                    <strong>Out of Stock</strong> — This item is currently unavailable
+                </div>`;
+        } else if (qty > stock) {
+            stockWarning = `
+                <div style="margin-top:6px; padding:6px 10px; background:#fff7ed; border-radius:4px; border-left:3px solid #ea580c; display:flex; align-items:center; gap:6px; font-size:12px; color:#9a3412;">
+                    <span class="material-symbols-outlined" style="font-size:14px;">warning</span>
+                    <strong>Low Stock</strong> — Only ${stock} available, you requested ${qty}
+                </div>`;
+        }
         
         // Create list item UI
         const li = document.createElement('li');
@@ -240,6 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div style="flex:1;">
                 <p style="margin:0; font-weight:600; color:var(--color-on-surface); font-size:var(--text-body-md-size);">${pName}</p>
                 <p style="margin:4px 0 0; color:var(--color-on-surface-variant); font-size:var(--text-body-sm-size);">Qty: <strong>${qty}</strong> ${note ? '— ' + note : ''}</p>
+                ${stockWarning}
                 
                 <input type="hidden" name="product_id[]" value="${pid}">
                 <input type="hidden" name="quantity[]" value="${qty}">
@@ -256,6 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
         productSelect.value = '';
         qtyInput.value = '1';
         noteInput.value = '';
+        stockWarningDiv.style.display = 'none';
         productSelect.focus();
     });
     
